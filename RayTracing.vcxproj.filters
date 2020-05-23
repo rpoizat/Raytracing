@@ -13,10 +13,34 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers sources\Composantes de scene">
+      <UniqueIdentifier>{808a2e83-4283-4cf7-a879-7c86524f311a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Outils">
+      <UniqueIdentifier>{c593cf9e-e21c-4cde-9f81-e4407c31f294}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.hpp">
+      <Filter>Fichiers sources\Composantes de scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec3.hpp">
+      <Filter>Fichiers sources\Outils</Filter>
+    </ClInclude>
+    <ClInclude Include="Entite.hpp">
+      <Filter>Fichiers sources\Composantes de scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.hpp">
+      <Filter>Fichiers sources\Composantes de scene</Filter>
+    </ClInclude>
+    <ClInclude Include="FonctionDiverses.hpp">
+      <Filter>Fichiers sources\Outils</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.hpp">
+      <Filter>Fichiers sources\Composantes de scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

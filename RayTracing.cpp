@@ -6,6 +6,8 @@
 #include <opencv2/core.hpp>
 #include "opencv2/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
+#include "Scene.hpp"
+
 using namespace std;
 using namespace cv;
 
@@ -71,7 +73,6 @@ string GetNomFicherScene()
 	return strRes;
 }
 
-
 int main()
 {
 	//paramètres
@@ -81,6 +82,7 @@ int main()
 	string nomImage;
 	bool ombre;
 
+	//choix des options
 #pragma region Choix des options
 
 	//choix du fichier de la scène
@@ -141,6 +143,13 @@ int main()
 
 	//création de l'image à rendre
 	Mat rendu(hauteur, largeur, CV_8UC3, Scalar(0, 0, 0));
+
+	//définition du ratio de l'image
+	float aspectRatio = float(largeur) / float(hauteur);
+
+	//lecture de la configuration de la scène
+	Scene scene;
+	scene.LectureConfiguration(nomFichier);
 
 	//sauvegarde de l'image à rendre sous forme de fichier
 	imwrite(nomImage, rendu);

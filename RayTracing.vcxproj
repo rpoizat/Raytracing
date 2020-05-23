@@ -163,7 +163,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Entite.hpp" />
+    <ClInclude Include="FonctionDiverses.hpp" />
+    <ClInclude Include="Light.hpp" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Scene.hpp" />
+    <ClInclude Include="Sphere.hpp" />
+    <ClInclude Include="Vec3.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
