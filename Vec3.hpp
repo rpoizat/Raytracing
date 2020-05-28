@@ -3,78 +3,180 @@
 #include <cmath>
 using namespace std;
 
-struct vec3
+class Vec3
 {
-	union 
-	{
-		struct 
+	private:
+
+		float x, y, z;
+
+	public:
+
+#pragma region Constructeurs
+
+		//constructeur vide
+		Vec3()
 		{
-			float x, y, z;
-		};
-		struct 
+			x = 0;
+			y = 0;
+			z = 0;
+		}
+
+		//constructeur avec paramètres
+		Vec3(float x1, float y1, float z1)
 		{
-			float r, g, b;
-		};
-	};
+			x = x1;
+			y = y1;
+			z = z1;
+		}
 
-	//multiplication d'un vecteur par un float
-	inline vec3 operator*(const float t) const 
-	{
-		return
-		{ 
-			x*t, y*t, z*t 
-		};
-	}
+#pragma endregion
 
-	//addition entre vecteurs
-	inline vec3 operator+(const vec3& rhs) const
-	{
-		return
-		{ 
-			x + rhs.x, y + rhs.y, z + rhs.z 
-		};
-	}
+#pragma region Operateurs
 
-	//soustraction entre vecteurs
-	inline vec3 operator-(const vec3& rhs) const
-	{
-		return
+		//accès en lecture
+		inline float operator[](int i) const
 		{
-			x - rhs.x, y - rhs.y, z - rhs.z 
-		};
-	}
+			switch (i)
+			{
+				case 0:
+					return x;
 
-	//multiplication avec un autre vecteur
-	inline vec3 operator*(const vec3& rhs) const
-	{
-		return
-		{ 
-			x * rhs.x, y * rhs.y, z * rhs.z 
-		};
-	}
+				case 1:
+					return y;
+
+				case 2:
+					return z;
+
+				default:
+					return NULL;
+			}
+		}
+
+		//accès en écriture
+		inline float& operator[](int i)
+		{
+			switch (i)
+			{
+			case 0:
+				return x;
+
+			case 1:
+				return y;
+
+			case 2:
+				return z;
+
+			default:
+				return x;
+			}
+		}
+
+		//affectation
+		inline Vec3 operator=(const Vec3& v)
+		{
+			x = v[0];
+			y = v[1];
+			z = v[2];
+		}
+
+		//addition entre vecteurs
+		inline Vec3 operator+=(const Vec3& v)
+		{
+			x + v.x;
+			y + v.y;
+			z + v.z;
+
+			return *this;
+		}
+
+		//soustraction entre vecteurs
+		inline Vec3 operator-=(const Vec3& v)
+		{
+			x - v.x;
+			y - v.y; 
+			z - v.z;
+
+			return *this;
+		}
+
+		//multiplication avec float
+		inline Vec3 operator*=(const float& f)
+		{
+			x *= f;
+			y *= f;
+			z *= f;
+
+			return *this;
+		}
+
+		//mutliplication avec un Vec3
+		inline Vec3 operator *=(const Vec3& v)
+		{
+			x *= v.x;
+			y *= v.y;
+			z *= v.z;
+
+			return *this;
+		}
+
+#pragma endregion
+
+#pragma region Fonctions
 
 	//produit scalaire
-	inline float dot(const vec3& rhs) const 
+	inline float dot(const Vec3& v) const 
 	{
-		return x * rhs.x + y * rhs.y + z * rhs.z;
+		return x * v.x + y * v.y + z * v.z;
 	}
 
 	//fonction de normalisation
-	inline vec3& normalize() 
+	inline Vec3& normalize() 
 	{
 		float inv_length = 1.f / sqrtf(x*x + y * y + z * z);
 		x *= inv_length;
 		y *= inv_length;
 		z *= inv_length;
+
 		return *this;
 	}
+
+#pragma endregion
 };
 
-ostream& operator <<(ostream& o, const vec3& v)
+#pragma region operateurs externes
+
+//multiplication d'un vecteur par un float
+inline Vec3 operator*(Vec3 v, const float& t)
 {
-	if(v.x != NULL) o << "(" << v.x << ", " << v.y << ", " << v.z << ")";
-	else o << "(" << v.r << ", " << v.g << ", " << v.b << ")";
+	return v *= t;
+}
+
+//multiplication d'un vecteur par un autre vecteur
+inline Vec3 operator*(Vec3 v1, const Vec3& v2)
+{
+	return v1 *= v2;
+}
+
+//addition entre vecteurs
+inline Vec3 operator+(Vec3 v1, const Vec3& v2)
+{
+	return v1 += v2;
+}
+
+//soustraction entre vecteurs
+inline Vec3 operator-(Vec3 v1, const Vec3& v2)
+{
+	return v1 -= v2;
+}
+
+//operateur de flux
+ostream& operator <<(ostream& o, const Vec3& v)
+{
+	o << "(" << v[0] << ", " << v[1] << ", " << v[2] << ")";
 	return o;
 }
+
+#pragma endregion
+
 // equivalent a typedef vec3 color;
-using color = vec3;
+using color = Vec3;

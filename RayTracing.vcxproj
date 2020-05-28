@@ -167,9 +167,13 @@
     <ClInclude Include="FonctionDiverses.hpp" />
     <ClInclude Include="Light.hpp" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Point.hpp" />
+    <ClInclude Include="Point4.hpp" />
+    <ClInclude Include="Ray.hpp" />
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="Sphere.hpp" />
     <ClInclude Include="Vec3.hpp" />
+    <ClInclude Include="Vec4.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

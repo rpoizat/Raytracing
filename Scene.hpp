@@ -68,20 +68,20 @@ class Scene
 					//récupération de la position
 					vector<string> donneesPosition = explode(donnees.at(1), '_');
 
-					vec3 position;
+					Vec3 position;
 					//si on a bien toutes les données pour la position
 					if (donneesPosition.size() == 3)
 					{
-						position.x = stof(donneesPosition.at(0));
-						position.y = stof(donneesPosition.at(1));
-						position.z = stof(donneesPosition.at(2));
+						position[0] = stof(donneesPosition.at(0));
+						position[1] = stof(donneesPosition.at(1));
+						position[2] = stof(donneesPosition.at(2));
 					}
 					else
 					{
 						cout << "Donnees invalides sur la position de l'objet de type Sphere, l'objet sera en 0 1 1 par defaut" << endl;
-						position.x = 0;
-						position.y = 1;
-						position.z = 1;
+						position[0] = 0;
+						position[1] = 1;
+						position[2] = 1;
 					}
 
 					float rayon;
@@ -109,57 +109,57 @@ class Scene
 					//récupération de la position
 					vector<string> donneesPosition = explode(donnees.at(1), '_');
 
-					vec3 position;
+					Vec3 position;
 					//si on a bien toutes les données pour la position
 					if (donneesPosition.size() == 3)
 					{
-						position.x = stof(donneesPosition.at(0));
-						position.y = stof(donneesPosition.at(1));
-						position.z = stof(donneesPosition.at(2));
+						position[0] = stof(donneesPosition.at(0));
+						position[1] = stof(donneesPosition.at(1));
+						position[2] = stof(donneesPosition.at(2));
 					}
 					else
 					{
 						cout << "Donnees invalides sur la position de l'objet de type Lumiere, l'objet sera en 0 0 0 par defaut" << endl;
-						position.x = 0;
-						position.y = 0;
-						position.z = 0;
+						position[0] = 0;
+						position[1] = 0;
+						position[2] = 0;
 					}
 
 					//récupération de la composante diffuse
 					vector<string> donneesDiffuse = explode(donnees.at(2), '_');
 
-					vec3 compDiffuse;
+					color compDiffuse;
 					//si on a bien toutes les données pour la composante diffuse
 					if (donneesDiffuse.size() == 3)
 					{
-						compDiffuse.r = stof(donneesDiffuse.at(0));
-						compDiffuse.g = stof(donneesDiffuse.at(1));
-						compDiffuse.b = stof(donneesDiffuse.at(2));
+						compDiffuse[0] = stof(donneesDiffuse.at(0));
+						compDiffuse[1] = stof(donneesDiffuse.at(1));
+						compDiffuse[2] = stof(donneesDiffuse.at(2));
 					}
 					else
 					{
-						compDiffuse.r = 255;
-						compDiffuse.g = 255;
-						compDiffuse.b = 255;
+						compDiffuse[0] = 255;
+						compDiffuse[1] = 255;
+						compDiffuse[2] = 255;
 						cout << "donnees invalides sur la composante diffuse de l'objet de type lumiere, composante mise a " << compDiffuse << "par defaut" << endl;
 					}
 
 					//récupération de la composante spéculaire
 					vector<string> donneesSpecular = explode(donnees.at(2), '_');
 
-					vec3 compSpecular;
+					color compSpecular;
 					//si on a bien toutes les données pour la composante diffuse
 					if (donneesSpecular.size() == 3)
 					{
-						compSpecular.r = stof(donneesSpecular.at(0));
-						compSpecular.g = stof(donneesSpecular.at(1));
-						compSpecular.b = stof(donneesSpecular.at(2));
+						compSpecular[0] = stof(donneesSpecular.at(0));
+						compSpecular[1] = stof(donneesSpecular.at(1));
+						compSpecular[2] = stof(donneesSpecular.at(2));
 					}
 					else
 					{
-						compSpecular.r = 255;
-						compSpecular.g = 255;
-						compSpecular.b = 255;
+						compSpecular[0] = 255;
+						compSpecular[1] = 255;
+						compSpecular[2] = 255;
 						cout << "donnees invalides sur la composante speculaire de l'objet de type lumiere, composante mise a " << compSpecular << "par defaut" << endl;
 					}
 
