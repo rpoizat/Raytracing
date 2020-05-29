@@ -173,7 +173,7 @@ inline Point4 operator*(Point4 p1, const Point4& p2)
 }
 
 //multiplication entre matrice 4x4 et point4
-Point4 operator*(Mat4f mat4, const Point4 p)
+Point4 operator*(Mat mat4, const Point4 p)
 {
 	return Point4(mat4 * p.GetPosition());
 }

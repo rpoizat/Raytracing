@@ -10,8 +10,8 @@ class Entite
 {
 	protected:
 		Vec3 position;
-		Mat4f trans;
-		Mat4f inv;
+		Mat trans;
+		Mat inv;
 	public:
 
 		//Constructeurs
@@ -19,16 +19,23 @@ class Entite
 		Entite(Vec3 p)
 		{
 			position = p;
+
+			trans = Mat(4, 4, CV_32F, 0.f);
 			
 			//initialiser la matrice de transformation
 			for (int i = 0; i < trans.rows; i++)
 			{
 				for (int j = 0; j < trans.cols; j++)
 				{
-					if (i == i) trans(i, j) = 1;
-					else trans(i,j) = 0;
+					if (j == i) trans.at<float>(i, j) = 1.f;
+					else trans.at<float>(i,j) = 0.f;
 				}
 			}
+
+			//ajout de la position
+			trans.at<float>(0, 3) = position[0];
+			trans.at<float>(1, 3) = position[1];
+			trans.at<float>(2, 3) = position[2];
 
 			//initialisation de la matrice inverse
 			Inverse();
@@ -43,6 +50,12 @@ class Entite
 			return position;
 		}
 
+		//fonction virtuelle d'intersection
+		virtual bool Intersection(const Ray& ray, outils::Point& impact) const
+		{
+			return true;
+		}
+
 #pragma region Fonctions de transformation
 
 		//mettre à jour la matrice inverse de l'objet
@@ -54,9 +67,9 @@ class Entite
 		//fonction de translation
 		void translate(Vec3 v)
 		{
-			trans(0, 3) = v[0];
-			trans(1, 3) = v[1];
-			trans(2, 3) = v[2];
+			trans.at<float>(0, 3) = v[0];
+			trans.at<float>(1, 3) = v[1];
+			trans.at<float>(2, 3) = v[2];
 
 			Inverse();
 		}
@@ -64,13 +77,13 @@ class Entite
 		//fonction de scale
 		void scale(float f)
 		{
-			trans(0, 0) = f;
-			trans(1, 1) = f;
-			trans(2, 2) = f;
+			trans.at<float>(0, 0) = f;
+			trans.at<float>(1, 1) = f;
+			trans.at<float>(2, 2) = f;
 
-			trans(0, 3) = trans(0, 3) * f;
-			trans(1, 3) = trans(1, 3) * f;
-			trans(2, 3) = trans(2, 3) * f;
+			trans.at<float>(0, 3) = trans.at<float>(0, 3) * f;
+			trans.at<float>(1, 3) = trans.at<float>(1, 3) * f;
+			trans.at<float>(2, 3) = trans.at<float>(2, 3) * f;
 
 			Inverse(); 
 		}
@@ -170,7 +183,7 @@ class Entite
 #pragma region LocalToGlobal
 
 		//transposition de local à global pour un point
-		outils::Point LocalToGlobal(const outils::Point& p)
+		outils::Point LocalToGlobal(const outils::Point& p)const
 		{
 			Point4 p4(p);
 
@@ -182,7 +195,7 @@ class Entite
 		}
 
 		//transposition de local à global pour un vec3
-		Vec3 LocalToGlobal(const Vec3& v)
+		Vec3 LocalToGlobal(const Vec3& v) const
 		{
 			Vec4 v4(v);
 
@@ -202,14 +215,14 @@ class Entite
 			res.origin = LocalToGlobal(res.origin);
 
 			return res;
-		}
+		}const
 
 #pragma endregion
 
 #pragma region GlobalToLocal
 
 		//transposition global à local pour un point
-		outils::Point GlobalToLocal(const outils::Point& p)
+		outils::Point GlobalToLocal(const outils::Point& p) const
 		{
 			Point4 p4(p);
 
@@ -221,7 +234,7 @@ class Entite
 		}
 
 		//transposition global à local pour un vec3
-		Vec3 GlobalToLocal(const Vec3& v)
+		Vec3 GlobalToLocal(const Vec3& v) const
 		{
 			Vec4 v4(v);
 
@@ -233,12 +246,12 @@ class Entite
 		}
 
 		//transposition global à local pour un Ray
-		Ray GlobalToLocal(const Ray& r)
+		Ray GlobalToLocal(const Ray& r)const
 		{
 			Ray res = r;
 
-			res.dir = LocalToGlobal(res.dir);
-			res.origin = LocalToGlobal(res.origin);
+			res.dir = GlobalToLocal(res.dir);
+			res.origin = GlobalToLocal(res.origin);
 
 			return res;
 		}

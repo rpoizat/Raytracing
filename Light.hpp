@@ -22,4 +22,9 @@ class Light : public Entite
 		{
 			return compSpecular;
 		}
+
+		bool Intersection(const Ray& ray, outils::Point& impact) const
+		{
+			return false;
+		}
 };

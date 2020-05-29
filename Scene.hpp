@@ -5,7 +5,7 @@
 #include "Sphere.hpp"
 #include "Light.hpp"
 #include "FonctionDiverses.hpp"
-
+using namespace std;
 
 using namespace std;
 using namespace cv;
@@ -14,23 +14,38 @@ using namespace cv;
 class Scene
 {
 	private:
-		vector<Entite> listeObjets;
-		vector<Entite> listeLumieres;
+		vector<Entite*> listeObjets;
+		vector<Entite*> listeLumieres;
 
 	public:
 
 		Scene(){}
 
-		//fonction pour ajouter un objet à la scène
-		void ajoutObjet(Entite e)
+		~Scene()
 		{
-			listeObjets.push_back(e);
+			for (int i = listeObjets.size()-1; i >= 0; i--)
+			{
+				delete listeObjets[i];
+			}
+
+			for (int i = listeLumieres.size() - 1; i >= 0; i--)
+			{
+				delete listeLumieres[i];
+			}
+		}
+
+		//fonction pour ajouter un objet à la scène
+		void ajoutObjet(Sphere e)
+		{
+			Entite* newObj = new Sphere(e.GetPosition(), e.GetRayon());
+			listeObjets.push_back(newObj);
 		}
 
 		//fonction pour ajouter une lumière à la scène
-		void ajoutLumiere(Entite e)
+		void ajoutLumiere(Light e)
 		{
-			listeLumieres.push_back(e);
+			Entite* newLight = new Light(e.GetPosition(), e.GetDiffuse(), e.GetSpecular());
+			listeLumieres.push_back(newLight);
 		}
 
 		//fonction de lecture du fichier de la scene donné en paramètre
@@ -171,6 +186,24 @@ class Scene
 					ajoutLumiere(l);
 
 					break;
+				}
+			}
+		}
+
+		//fonction pour définir la couleur du  pixel correspondant au Ray donné en paramètre
+		color RayTrace(Ray r)
+		{
+			for (int i = 0; i < listeObjets.size(); i++)
+			{
+				outils::Point impact;
+
+				if (listeObjets[i]->Intersection(r, impact))
+				{
+					return color(255.f, 255.f, 255.f);
+				}
+				else
+				{
+					return color(255.f, 0.f, 0.f);
 				}
 			}
 		}

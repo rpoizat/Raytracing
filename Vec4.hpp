@@ -176,8 +176,10 @@ inline Vec4 operator*(Vec4 v1, const Vec4& v2)
 }
 
 //multiplication entre mat4 et Vec4
-Vec4 operator*(cv::Mat4f mat4, const Vec4& p)
+Vec4 operator*(cv::Mat mat4, const Vec4& p)
 {
+	if (mat4.rows != 4 || mat4.cols != 4) throw new Exception();
+
 	float x = p[0] * mat4.at<float>(0, 0) + p[1] * mat4.at<float>(0, 1) + p[2] * mat4.at<float>(0, 2) + p[3] * mat4.at<float>(0, 3);
 	float y = p[0] * mat4.at<float>(1, 0) + p[1] * mat4.at<float>(1, 1) + p[2] * mat4.at<float>(1, 2) + p[3] * mat4.at<float>(1, 3);
 	float z = p[0] * mat4.at<float>(2, 0) + p[1] * mat4.at<float>(2, 1) + p[2] * mat4.at<float>(2, 2) + p[3] * mat4.at<float>(2, 3);
