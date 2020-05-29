@@ -1,5 +1,10 @@
 #pragma once
-#include <math.h>
+
+#include <math.h>;
+#include "Vec3.hpp";
+#include <opencv2/opencv.hpp>
+
+using namespace cv;
 
 class Vec4
 {
@@ -81,12 +86,14 @@ class Vec4
 		}
 
 		//affectation
-		inline Vec4 operator=(const Vec4& v)
+		inline Vec4& operator=(const Vec4& v)
 		{
 			x = v.x;
 			y = v.y;
 			z = v.z;
 			w = v.w;
+
+			return *this;
 		}
 
 		//addition
@@ -169,7 +176,7 @@ inline Vec4 operator*(Vec4 v1, const Vec4& v2)
 }
 
 //multiplication entre mat4 et Vec4
-Vec4 operator*(Mat4f mat4, const Vec4& p)
+Vec4 operator*(cv::Mat4f mat4, const Vec4& p)
 {
 	float x = p[0] * mat4.at<float>(0, 0) + p[1] * mat4.at<float>(0, 1) + p[2] * mat4.at<float>(0, 2) + p[3] * mat4.at<float>(0, 3);
 	float y = p[0] * mat4.at<float>(1, 0) + p[1] * mat4.at<float>(1, 1) + p[2] * mat4.at<float>(1, 2) + p[3] * mat4.at<float>(1, 3);

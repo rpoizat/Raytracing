@@ -72,11 +72,13 @@ class Vec3
 		}
 
 		//affectation
-		inline Vec3 operator=(const Vec3& v)
+		inline Vec3& operator=(const Vec3& v)
 		{
 			x = v[0];
 			y = v[1];
 			z = v[2];
+
+			return *this;
 		}
 
 		//addition entre vecteurs

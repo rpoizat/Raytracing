@@ -1,6 +1,8 @@
 ﻿#pragma once
+
 #include "Point4.hpp";
 #include "Ray.hpp"
+
 using namespace outils;
 
 //classe mère Entite qui regroupe l'ensemble des objets disposables dans la scène
@@ -207,7 +209,7 @@ class Entite
 #pragma region GlobalToLocal
 
 		//transposition global à local pour un point
-		outils::Point LocalToGlobal(const outils::Point& p)
+		outils::Point GlobalToLocal(const outils::Point& p)
 		{
 			Point4 p4(p);
 
@@ -219,7 +221,7 @@ class Entite
 		}
 
 		//transposition global à local pour un vec3
-		Vec3 LocalToGlobal(const Vec3& v)
+		Vec3 GlobalToLocal(const Vec3& v)
 		{
 			Vec4 v4(v);
 
@@ -231,7 +233,7 @@ class Entite
 		}
 
 		//transposition global à local pour un Ray
-		Ray LocalToGlobal(const Ray& r)
+		Ray GlobalToLocal(const Ray& r)
 		{
 			Ray res = r;
 

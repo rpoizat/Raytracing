@@ -90,6 +90,8 @@ namespace outils
 		inline Point& operator=(Point p)
 		{
 			position = p.position;
+
+			return *this;
 		}
 
 		//operateur +=
@@ -130,14 +132,6 @@ namespace outils
 	inline Point& operator*(Point& p, const float& f)
 	{
 		p.GetPosition() * f;
-
-		return p;
-	}
-
-	//operateur /
-	inline Point& operator/(Point&p, const float& f)
-	{
-		p.GetPosition / f;
 
 		return p;
 	}

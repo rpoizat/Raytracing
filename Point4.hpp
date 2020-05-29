@@ -1,6 +1,8 @@
 #pragma once
+
 #include "Vec4.hpp";
 #include "Point.hpp"
+
 using namespace outils;
 
 //représente le point en coordonnées homogènes
@@ -59,7 +61,7 @@ class Point4
 #pragma region Fonctions
 
 		//getteur sur la position
-		Vec4 GetPosition() const
+		const Vec4 GetPosition() const
 		{
 			return position4;
 		}
@@ -122,6 +124,8 @@ class Point4
 		inline Point4& operator=(Point4 p)
 		{
 			position4 = p.position4;
+
+			return *this;
 		}
 
 		//operateur +=

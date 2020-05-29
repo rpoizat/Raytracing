@@ -6,19 +6,19 @@ using namespace std;
 class Light : public Entite
 {
 	private:
-		vec3 compDiffuse;
-		vec3 compSpecular;
+		color compDiffuse;
+		color compSpecular;
 
 	public:
 		Light() {};
-		Light(vec3 p, vec3 cd, vec3 cs) : Entite(p), compDiffuse(cd), compSpecular(cs){}
+		Light(Vec3 p, color cd, color cs) : Entite(p), compDiffuse(cd), compSpecular(cs){}
 
-		vec3 GetDiffuse()
+		color GetDiffuse()
 		{
 			return compDiffuse;
 		}
 
-		vec3 GetSpecular()
+		color GetSpecular()
 		{
 			return compSpecular;
 		}
