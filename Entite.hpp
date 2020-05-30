@@ -10,15 +10,17 @@ class Entite
 {
 	protected:
 		Vec3 position;
+		Vec3 rotation;
 		Mat trans;
 		Mat inv;
 	public:
 
 		//Constructeurs
 		Entite() {};
-		Entite(Vec3 p)
+		Entite(Vec3 p, Vec3 r)
 		{
 			position = p;
+			rotation = r;
 
 			trans = Mat(4, 4, CV_32F, 0.f);
 			
@@ -37,8 +39,10 @@ class Entite
 			trans.at<float>(1, 3) = position[1];
 			trans.at<float>(2, 3) = position[2];
 
-			//initialisation de la matrice inverse
-			Inverse();
+			//ajout de la rotation
+			rotateX(r[0]);
+			rotateY(r[1]);
+			rotateZ(r[2]);
 		}
 
 		//destructeur
@@ -48,6 +52,12 @@ class Entite
 		Vec3 GetPosition()
 		{
 			return position;
+		}
+
+		//chaque entité dispose d'une rotation
+		Vec3 GetRotation()
+		{
+			return rotation;
 		}
 
 		//fonction virtuelle d'intersection
@@ -91,27 +101,29 @@ class Entite
 		//rotation en X
 		void rotateX(float deg)
 		{
-			Mat4f mrX﻿‌﻿;
+			Mat mrX﻿‌﻿ = Mat(4, 4, CV_32F, 0.f);;
 
-			mrX﻿‌﻿(0, 0) = 1;
-			mrX﻿‌﻿(0, 1) = 0;
-			mrX﻿‌﻿(0, 2) = 0;
-			mrX﻿‌﻿(0, 3) = 0;
+			deg = (deg * 3.1415) / 180;
 
-			mrX﻿‌﻿(1, 0) = 0;
-			mrX﻿‌﻿(1, 1) = cos(deg);
-			mrX﻿‌﻿(1, 2) = -sin(deg);
-			mrX﻿‌﻿(1, 3) = 0;
+			mrX﻿‌﻿.at<float>(0, 0) = 1.f;
+			mrX﻿‌﻿.at<float>(0, 1) = 0.f;
+			mrX﻿‌﻿.at<float>(0, 2) = 0.f;
+			mrX﻿‌﻿.at<float>(0, 3) = 0.f;
 
-			mrX﻿‌﻿(2, 0) = 0;
-			mrX﻿‌﻿(2, 1) = sin(deg);
-			mrX﻿‌﻿(2, 2) = cos(deg);
-			mrX﻿‌﻿(2, 3) = 0;
+			mrX﻿‌﻿.at<float>(1, 0) = 0.f;
+			mrX﻿‌﻿.at<float>(1, 1) = cos(deg);
+			mrX﻿‌﻿.at<float>(1, 2) = -sin(deg);
+			mrX﻿‌﻿.at<float>(1, 3) = 0.f;
 
-			mrX﻿‌﻿(3, 0) = 0;
-			mrX﻿‌﻿(3, 1) = 0;
-			mrX﻿‌﻿(3, 2) = 0;
-			mrX﻿‌﻿(3, 3) = 1;
+			mrX﻿‌﻿.at<float>(2, 0) = 0.f;
+			mrX﻿‌﻿.at<float>(2, 1) = sin(deg);
+			mrX﻿‌﻿.at<float>(2, 2) = cos(deg);
+			mrX﻿‌﻿.at<float>(2, 3) = 0.f;
+
+			mrX﻿‌﻿.at<float>(3, 0) = 0.f;
+			mrX﻿‌﻿.at<float>(3, 1) = 0.f;
+			mrX﻿‌﻿.at<float>(3, 2) = 0.f;
+			mrX﻿‌﻿.at<float>(3, 3) = 1.f;
 
 			trans = mrX﻿‌﻿ * trans;
 
@@ -121,27 +133,29 @@ class Entite
 		//rotation en Y
 		void rotateY(float deg)
 		{
-			Mat4f mrY;
+			Mat mrY = Mat(4, 4, CV_32F, 0.f);
 
-			mrY(0, 0) = cos(deg);
-			mrY(0, 1) = 0;
-			mrY(0, 2) = sin(deg);
-			mrY(0, 3) = 0;
+			deg = (deg * 3.1415) / 180;
 
-			mrY(1, 0) = 0;
-			mrY(1, 1) = 1;
-			mrY(1, 2) = 0;
-			mrY(1, 3) = 0;
+			mrY.at<float>(0, 0) = cos(deg);
+			mrY.at<float>(0, 1) = 0.f;
+			mrY.at<float>(0, 2) = sin(deg);
+			mrY.at<float>(0, 3) = 0.f;
 
-			mrY(2, 0) = -sin(deg);
-			mrY(2, 1) = 0;
-			mrY(2, 2) = cos(deg);
-			mrY(2, 3) = 0;
+			mrY.at<float>(1, 0) = 0.f;
+			mrY.at<float>(1, 1) = 1.f;
+			mrY.at<float>(1, 2) = 0.f;
+			mrY.at<float>(1, 3) = 0.f;
 
-			mrY(3, 0) = 0;
-			mrY(3, 1) = 0;
-			mrY(3, 2) = 0;
-			mrY(3, 3) = 1;
+			mrY.at<float>(2, 0) = -sin(deg);
+			mrY.at<float>(2, 1) = 0.f;
+			mrY.at<float>(2, 2) = cos(deg);
+			mrY.at<float>(2, 3) = 0.f;
+
+			mrY.at<float>(3, 0) = 0.f;
+			mrY.at<float>(3, 1) = 0.f;
+			mrY.at<float>(3, 2) = 0.f;
+			mrY.at<float>(3, 3) = 1.f;
 
 			trans = mrY * trans;
 
@@ -151,27 +165,29 @@ class Entite
 		//rotation en Z
 		void rotateZ(float deg)
 		{
-			Mat4f mrZ;
+			Mat mrZ = Mat(4, 4, CV_32F, 0.f);
 
-			mrZ(0, 0) = cos(deg);
-			mrZ(0, 1) = -sin(deg);
-			mrZ(0, 2) = 0;
-			mrZ(0, 3) = 0;
+			deg = (deg * 3.1415) / 180;
 
-			mrZ(1, 0) = sin(deg);
-			mrZ(1, 1) = cos(deg);
-			mrZ(1, 2) = 0;
-			mrZ(1, 3) = 0;
+			mrZ.at<float>(0, 0) = cos(deg);
+			mrZ.at<float>(0, 1) = -sin(deg);
+			mrZ.at<float>(0, 2) = 0.f;
+			mrZ.at<float>(0, 3) = 0.f;
 
-			mrZ(2, 0) = 0;
-			mrZ(2, 1) = 0;
-			mrZ(2, 2) = 1;
-			mrZ(2, 3) = 0;
+			mrZ.at<float>(1, 0) = sin(deg);
+			mrZ.at<float>(1, 1) = cos(deg);
+			mrZ.at<float>(1, 2) = 0.f;
+			mrZ.at<float>(1, 3) = 0.f;
 
-			mrZ(3, 0) = 0;
-			mrZ(3, 1) = 0;
-			mrZ(3, 2) = 0;
-			mrZ(3, 3) = 1;
+			mrZ.at<float>(2, 0) = 0.f;
+			mrZ.at<float>(2, 1) = 0.f;
+			mrZ.at<float>(2, 2) = 1.f;
+			mrZ.at<float>(2, 3) = 0.f;
+
+			mrZ.at<float>(3, 0) = 0.f;
+			mrZ.at<float>(3, 1) = 0.f;
+			mrZ.at<float>(3, 2) = 0.f;
+			mrZ.at<float>(3, 3) = 1.f;
 
 			trans = mrZ * trans;
 

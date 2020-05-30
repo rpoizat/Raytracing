@@ -54,6 +54,15 @@
     <ClInclude Include="Ray.hpp">
       <Filter>Fichiers sources\Outils</Filter>
     </ClInclude>
+    <ClInclude Include="Cube.hpp">
+      <Filter>Fichiers sources\Composantes de scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CylindreInf.hpp">
+      <Filter>Fichiers sources\Composantes de scene</Filter>
+    </ClInclude>
+    <ClInclude Include="PlanInf.hpp">
+      <Filter>Fichiers sources\Composantes de scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -65,6 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="scene.txt">
+      <Filter>Fichiers sources</Filter>
+    </Text>
+    <Text Include="sceneTest.txt">
       <Filter>Fichiers sources</Filter>
     </Text>
   </ItemGroup>

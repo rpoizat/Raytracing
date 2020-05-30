@@ -163,10 +163,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Cube.hpp" />
+    <ClInclude Include="CylindreInf.hpp" />
     <ClInclude Include="Entite.hpp" />
     <ClInclude Include="FonctionDiverses.hpp" />
     <ClInclude Include="Light.hpp" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PlanInf.hpp" />
     <ClInclude Include="Point.hpp" />
     <ClInclude Include="Point4.hpp" />
     <ClInclude Include="Ray.hpp" />
@@ -186,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="scene.txt" />
+    <Text Include="sceneTest.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -13,40 +13,12 @@ class Sphere : public Entite
 	public:
 
 		Sphere() {};
-		Sphere(Vec3 p, float r) : Entite(p), rayon(r){}
+		Sphere(Vec3 p, Vec3 rot, float r) : Entite(p, rot), rayon(r){}
 
 		//getteur du rayon
 		float GetRayon()
 		{
 			return rayon;
-
-			GlobalToLocal(GetPosition());
-		}
-
-		void AfficherMatTrans()
-		{
-			for (int i = 0; i < trans.rows; i++)
-			{
-				for (int j = 0; j < trans.cols; j++)
-				{
-					cout << trans.at<float>(i, j) << " ";
-				}
-
-				cout << endl;
-			}
-		}
-
-		void AfficherMatInv()
-		{
-			for (int i = 0; i < inv.rows; i++)
-			{
-				for (int j = 0; j < inv.cols; j++)
-				{
-					cout << inv.at<float>(i, j) << " ";
-				}
-
-				cout << endl;
-			}
 		}
 
 		//fonction d'intersection entre la sphère et le rayon donné en paramètre
@@ -65,8 +37,8 @@ class Sphere : public Entite
 
 			float t;
 
-			if (t1 < t2 && t1 > 0) t = t1;
-			else if (t1 > 0 && t2 < 0) t = t1;
+			if (t1 < t2 && t1 > 0.f) t = t1;
+			else if (t1 > 0.f && t2 < 0.f) t = t1;
 			else t = t2;
 
 			if (t > 0)
