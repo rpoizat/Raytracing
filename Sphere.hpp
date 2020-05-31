@@ -13,7 +13,7 @@ class Sphere : public Entite
 	public:
 
 		Sphere() {};
-		Sphere(Vec3 p, Vec3 rot, float r) : Entite(p, rot), rayon(r){}
+		Sphere(Vec3 p, Vec3 rot, color c, float r) : Entite(p, rot, c), rayon(r){}
 
 		//getteur du rayon
 		float GetRayon()

@@ -148,7 +148,7 @@ int main()
 	float aspectRatio = float(largeur) / float(hauteur);
 
 	//lecture de la configuration de la scène
-	Scene scene;
+	Scene scene(ombre);
 	scene.LectureConfiguration(nomFichier);
 
 	//traitement des pixels

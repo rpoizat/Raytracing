@@ -19,9 +19,20 @@ class Scene
 		vector<Entite*> listeObjets;
 		vector<Entite*> listeLumieres;
 
+		//option d'activer/désactiver les ombres
+		bool ombre;
+
 	public:
 
+#pragma region Contructeurs
+
+		//Contructeurs
 		Scene(){}
+
+		Scene(bool o)
+		{
+			ombre = o;
+		}
 
 		~Scene()
 		{
@@ -36,10 +47,14 @@ class Scene
 			}
 		}
 
+#pragma endregion
+
+#pragma region fonctions ajout objets
+
 		//fonction pour ajouter un objet à la scène
 		void ajoutObjet(Sphere e)
 		{
-			Entite* newObj = new Sphere(e.GetPosition(), e.GetRotation(), e.GetRayon());
+			Entite* newObj = new Sphere(e.GetPosition(), e.GetRotation(), e.GetColor(), e.GetRayon());
 			listeObjets.push_back(newObj);
 		}
 
@@ -53,23 +68,27 @@ class Scene
 		//fonction pour ajouter un cube à la scène
 		void ajoutObjet(Cube e)
 		{
-			Entite* newObj = new Cube(e.GetPosition(), e.GetRotation(), e.GetCote());
+			Entite* newObj = new Cube(e.GetPosition(), e.GetRotation(), e.GetColor(), e.GetCote());
 			listeObjets.push_back(newObj);
 		}
 
 		//fonction pour ajouter un cylindre infini à la scène
 		void ajoutObjet(CylindreInf e)
 		{
-			Entite* newObj = new CylindreInf(e.GetPosition(), e.GetRotation(), e.GetRayon());
+			Entite* newObj = new CylindreInf(e.GetPosition(), e.GetRotation(), e.GetColor(), e.GetRayon());
 			listeObjets.push_back(newObj);
 		}
 
 		//fonction pour ajouter un plan infini à la scène
 		void ajoutObjet(PlanInf e)
 		{
-			Entite* newObj = new PlanInf(e.GetPosition(), e.GetRotation());
+			Entite* newObj = new PlanInf(e.GetPosition(), e.GetRotation(), e.GetColor());
 			listeObjets.push_back(newObj);
 		}
+
+#pragma endregion
+
+#pragma region Traitement de la scène
 
 		//fonction de lecture du fichier de la scene donné en paramètre
 		void LectureConfiguration(string cheminFichier)
@@ -100,7 +119,7 @@ class Scene
 
 			switch (str2int(donnees.at(0).c_str()))
 			{
-				//création d'une sphère
+				//création d'une sphère  rouge
 				case str2int("sphere"):
 				{
 					//récupération de la position
@@ -151,7 +170,7 @@ class Scene
 					else rayon = 1.f;
 
 					//création de la sphère
-					Sphere s(position, rotation, rayon);
+					Sphere s(position, rotation, color(255.f, 0.f, 0.f), rayon);
 
 					//ajout de la sphère à la liste des objets
 					ajoutObjet(s);
@@ -161,7 +180,7 @@ class Scene
 					break;
 				}
 
-				//création d'un cube
+				//création d'un cube vert
 				case str2int("cube"):
 				{
 					//récupération de la position
@@ -212,7 +231,7 @@ class Scene
 					else cote = 1.f;
 
 					//création du cube
-					Cube c(position, rotation, cote);
+					Cube c(position, rotation, color(0.f, 255.f, 0.f), cote);
 
 					//ajout du cube à la liste des objets
 					ajoutObjet(c);
@@ -222,7 +241,7 @@ class Scene
 					break;
 				}
 
-				//création d'un cylindre infini
+				//création d'un cylindre infini bleu
 				case str2int("cylindre"):
 				{
 					//récupération de la position
@@ -272,8 +291,8 @@ class Scene
 					}
 					else rayon = 1.f;
 
-					//création de la sphère
-					CylindreInf c(position, rotation, rayon);
+					//création du cylindre
+					CylindreInf c(position, rotation, color(0.f, 0.f, 255.f), rayon);
 
 					//ajout du cylindre à la liste des objets
 					ajoutObjet(c);
@@ -283,7 +302,7 @@ class Scene
 					break;
 				}
 
-				//création d'un plan infini
+				//création d'un plan infini gris
 				case str2int("plan"):
 				{
 					//récupération de la position
@@ -325,7 +344,7 @@ class Scene
 					}
 
 					//création de la sphère
-					PlanInf p(position, rotation);
+					PlanInf p(position, color(20.f, 20.f, 20.f), rotation);
 
 					//ajout du cylindre à la liste des objets
 					ajoutObjet(p);
@@ -410,15 +429,33 @@ class Scene
 		//fonction pour définir la couleur du  pixel correspondant au Ray donné en paramètre
 		color RayTrace(Ray r)
 		{
+			float zMax = 100.f;
+			int indiceZMax = -1;
+
+			//recherche de l'impact le plus proche
 			for (int i = 0; i < listeObjets.size(); i++)
 			{
 				outils::Point impact;
 
 				if (listeObjets[i]->Intersection(r, impact))
 				{
-					return color(255.f, 255.f, 255.f);
+					//si l'objet est plus proche de la caméra que le dernier objet sur lequel on a eu un impact, c'est celui ci qui passe devant
+					if (impact[2] < zMax)
+					{
+						zMax = impact[2];
+						indiceZMax = i;
+					}
 				}
 			}
-			return color(255.f, 0.f, 0.f);
+
+			//si on a eu un impact
+			if (indiceZMax != -1)
+			{
+				//traiter l'illumination et les ombres
+				return listeObjets[indiceZMax]->GetColor();
+			}
+			else return color(0.f, 0.f, 0.f);
 		}
+
+#pragma endregion
 };

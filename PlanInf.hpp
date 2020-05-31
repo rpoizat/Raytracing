@@ -7,7 +7,7 @@ class PlanInf : public Entite
 
 		//constructeurs
 		PlanInf() {};
-		PlanInf(Vec3 p, Vec3 rot) : Entite(p, rot){}
+		PlanInf(Vec3 p, Vec3 rot, color c) : Entite(p, rot, c){}
 
 		//Getteur sur la position
 		Vec3 GetPosition()

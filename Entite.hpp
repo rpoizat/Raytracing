@@ -13,14 +13,18 @@ class Entite
 		Vec3 rotation;
 		Mat trans;
 		Mat inv;
+
+		//attribut temporaire en attendant les matériaux
+		color col;
 	public:
 
 		//Constructeurs
 		Entite() {};
-		Entite(Vec3 p, Vec3 r)
+		Entite(Vec3 p, Vec3 r,  color c)
 		{
 			position = p;
 			rotation = r;
+			col = c;
 
 			trans = Mat(4, 4, CV_32F, 0.f);
 			
@@ -58,6 +62,12 @@ class Entite
 		Vec3 GetRotation()
 		{
 			return rotation;
+		}
+
+		//fonction temporaire pour afficher les couleurs
+		color GetColor()
+		{
+			return col;
 		}
 
 		//fonction virtuelle d'intersection

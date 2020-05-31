@@ -11,7 +11,7 @@ class Light : public Entite
 
 	public:
 		Light() {};
-		Light(Vec3 p, color cd, color cs) : Entite(p, Vec3(0.f,0.f,0.f)), compDiffuse(cd), compSpecular(cs){}
+		Light(Vec3 p, color cd, color cs) : Entite(p, Vec3(0.f,0.f,0.f), color(0.f, 0.f, 0.f)), compDiffuse(cd), compSpecular(cs){}
 
 		color GetDiffuse()
 		{
