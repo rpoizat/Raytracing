@@ -63,6 +63,9 @@
     <ClInclude Include="PlanInf.hpp">
       <Filter>Fichiers sources\Composantes de scene</Filter>
     </ClInclude>
+    <ClInclude Include="Material.hpp">
+      <Filter>Fichiers sources\Outils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

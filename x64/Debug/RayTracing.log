@@ -1,8 +1,21 @@
-﻿  pch.cpp
-  RayTracing.cpp
-c:\projet_annuel\raytracing\raytracing\raytracingrepo\raytracing\sphere.hpp(2): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
-c:\projet_annuel\raytracing\raytracing\raytracingrepo\raytracing\entite.hpp(2): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
-c:\projet_annuel\raytracing\raytracing\raytracingrepo\raytracing\light.hpp(2): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
-c:\projet_annuel\raytracing\raytracing\raytracingrepo\raytracing\scene.hpp(66): warning C4307: '*' : dépassement de constante intégrale
-c:\projet_annuel\raytracing\raytracing\raytracingrepo\raytracing\scene.hpp(107): warning C4307: '*' : dépassement de constante intégrale
-  RayTracing.vcxproj -> C:\Projet_Annuel\Raytracing\RayTracing\RaytracingRepo\x64\Debug\RayTracing.exe
+﻿  RayTracing.cpp
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Sphere.hpp(3,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Entite.hpp(3,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Point4.hpp(3,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Vec4.hpp(3,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Vec4.hpp(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Vec3.hpp(87,6): warning C4552: '+' : résultat de l'expression non utilisé
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Vec3.hpp(88,6): warning C4552: '+' : résultat de l'expression non utilisé
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Vec3.hpp(89,6): warning C4552: '+' : résultat de l'expression non utilisé
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Vec3.hpp(97,6): warning C4552: '-' : résultat de l'expression non utilisé
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Vec3.hpp(98,6): warning C4552: '-' : résultat de l'expression non utilisé
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Vec3.hpp(99,6): warning C4552: '-' : résultat de l'expression non utilisé
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Entite.hpp(116,25): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Entite.hpp(148,25): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Entite.hpp(180,25): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Sphere.hpp(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Cube.hpp(2,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Light.hpp(2,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Scene.hpp(39,1): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Scene.hpp(44,1): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+  RayTracing.vcxproj -> C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\x64\Debug\RayTracing.exe

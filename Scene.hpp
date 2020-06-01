@@ -58,6 +58,12 @@ class Scene
 			listeObjets.push_back(newObj);
 		}
 
+		void ajoutObjetMaterial(Sphere e)
+		{
+			Entite* newObj = new Sphere(e.GetPosition(), e.GetRotation(), e.GetColor(), e.GetRayon(), e.GetMaterial());
+			listeObjets.push_back(newObj);
+		}
+
 		//fonction pour ajouter une lumière à la scène
 		void ajoutLumiere(Light e)
 		{
@@ -116,6 +122,7 @@ class Scene
 		void ProcessLigne(string l)
 		{
 			vector<string> donnees = explode(l, ':');
+			
 
 			switch (str2int(donnees.at(0).c_str()))
 			{
@@ -176,6 +183,144 @@ class Scene
 					ajoutObjet(s);
 
 					cout << "ajout d'une sphere de rayon " << s.GetRayon() << " a la position " << s.GetPosition() << " de rotation " << s.GetRotation() << endl;
+
+					break;
+				}
+
+
+				//Cas pour tester une ligne du fichier qui renseigne sur une sphère et son material
+				case str2int("sphereMat"):
+				{
+					//récupération de la position
+					vector<string> donneesPosition = explode(donnees.at(1), '_');
+
+
+					Material mat;
+					//Récuperation données composante ambiante
+					vector<string> donneesAmbiante = explode(donnees.at(6), '_');
+
+					if (donneesAmbiante.size() == 3)
+					{
+						mat.ka[0] = stof(donneesAmbiante.at(0));
+						mat.ka[1] = stof(donneesAmbiante.at(1));
+						mat.ka[2] = stof(donneesAmbiante.at(2));
+
+					}
+					else
+					{
+						cout << "Donnees invalides sur la composante ambiante de la sphère , remplacement par un vec3(0,0,0)" << endl;
+						mat.ka[0] = 0;
+						mat.ka[1] = 0;
+						mat.ka[2] = 0;
+					}
+
+					//Récuperation données composante diffuse
+					vector<string> donneesDiffuse = explode(donnees.at(7), '_');
+
+					if (donneesDiffuse.size() == 3)
+					{
+						mat.kd[0] = stof(donneesDiffuse.at(0));
+						mat.kd[1] = stof(donneesDiffuse.at(1));
+						mat.kd[2] = stof(donneesDiffuse.at(2));
+
+					}
+					else
+					{
+						cout << "Donnees invalides sur la composante diffuse de la sphère , remplacement par un vec3(0,0,0)" << endl;
+						mat.kd[0] = 0;
+						mat.kd[1] = 0;
+						mat.kd[2] = 0;
+					}
+
+					//Récuperation données composante spéculaire
+					vector<string> donneesSpeculaire = explode(donnees.at(8), '_');
+
+					if (donneesSpeculaire.size() == 3)
+					{
+						mat.ks[0] = stof(donneesSpeculaire.at(0));
+						mat.ks[1] = stof(donneesSpeculaire.at(1));
+						mat.ks[2] = stof(donneesSpeculaire.at(2));
+
+					}
+					else
+					{
+						cout << "Donnees invalides sur la composante spéculaire de la sphère , remplacement par un vec3(0,0,0)" << endl;
+						mat.ks[0] = 0;
+						mat.ks[1] = 0;
+						mat.ks[2] = 0;
+					}
+
+					//Récuperation données Shininess
+					vector<string> donneeShininess = explode(donnees.at(9), '_');
+
+					if (donneeShininess.size() == 1)
+					{
+						mat.shininess = stof(donneeShininess.at(0));
+
+					}
+					else
+					{
+						cout << "Donnees invalides sur la composante shininess de la sphère , remplacement par un 0" << endl;
+
+						mat.shininess = 0.f;
+					}
+
+					Vec3 position;
+					//si on a bien toutes les données pour la position
+					if (donneesPosition.size() == 3)
+					{
+						position[0] = -stof(donneesPosition.at(0));
+						position[1] = -stof(donneesPosition.at(1));
+						position[2] = stof(donneesPosition.at(2));
+					}
+					else
+					{
+						cout << "Donnees invalides sur la position de l'objet de type Sphere, l'objet sera en 0 1 -10 par defaut" << endl;
+						position[0] = 0.f;
+						position[1] = 1.f;
+						position[2] = -10.f;
+					}
+
+					//récupération de la rotation
+					vector<string> donneesRotation = explode(donnees.at(2), '_');
+
+					Vec3 rotation;
+					//si on a bien toutes les données pour la position
+					if (donneesRotation.size() == 3)
+					{
+						rotation[0] = stof(donneesRotation.at(0));
+						rotation[1] = stof(donneesRotation.at(1));
+						rotation[2] = stof(donneesRotation.at(2));
+					}
+					else
+					{
+						cout << "Donnees invalides sur la rotation de l'objet de type Sphere, la rotation sera en 0 0 0 par defaut" << endl;
+						rotation[0] = 0.f;
+						rotation[1] = 0.f;
+						rotation[2] = 0.f;
+					}
+
+					float rayon;
+
+					//récupération du rayon, sinon initialisé à 1 par défaut
+					if (!donnees.at(3).empty())
+					{
+						rayon = stof(donnees.at(3));
+					}
+					else rayon = 1.f;
+
+					//création de la sphère
+					Sphere s(position, rotation, color(255.f, 0.f, 0.f), rayon, mat);
+
+					//ajout de la sphère à la liste des objets
+					ajoutObjetMaterial(s);
+
+					cout << "ajout d'une sphere de rayon " << s.GetRayon() << " a la position " << s.GetPosition() << " de rotation " << s.GetRotation() <<
+					
+						"avec le composante ka(" << mat.ka[0] << ", " << mat.ka[1] << ", " << mat.ka[2] << ")" <<
+						"avec le composante kd(" << mat.kd[0] << ", " << mat.kd[1] << ", " << mat.kd[2] << ")"
+						"avec le composante ks(" << mat.ks[0] << ", " << mat.ks[1] << ", " << mat.ks[2] << ")" 
+						" et de shininess "<< mat.shininess <<endl;
 
 					break;
 				}

@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 #include "Entite.hpp";
+#include "Material.hpp";
+
 
 using namespace std;
 
@@ -9,17 +11,26 @@ class Sphere : public Entite
 {
 	private:
 		float rayon;
+		Material material;
 
 	public:
 
 		Sphere() {};
 		Sphere(Vec3 p, Vec3 rot, color c, float r) : Entite(p, rot, c), rayon(r){}
+		Sphere(Vec3 p, Vec3 rot, color c, float r, Material m) : Entite(p, rot, c), rayon(r), material(m){}
 
 		//getteur du rayon
 		float GetRayon()
 		{
 			return rayon;
 		}
+
+		//getteur du material
+		Material GetMaterial()
+		{
+			return material;
+		}
+
 
 		//fonction d'intersection entre la sphère et le rayon donné en paramètre
 		bool Intersection(const Ray& ray, outils::Point& impact) const override

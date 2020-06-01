@@ -1,10 +1,33 @@
-﻿  RayTracing.cpp
+﻿  pch.cpp
+  RayTracing.cpp
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Sphere.hpp(3,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Entite.hpp(3,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Point4.hpp(3,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Vec4.hpp(3,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Vec4.hpp(4,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Vec3.hpp(87,6): warning C4552: '+' : résultat de l'expression non utilisé
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Vec3.hpp(88,6): warning C4552: '+' : résultat de l'expression non utilisé
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Vec3.hpp(89,6): warning C4552: '+' : résultat de l'expression non utilisé
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Vec3.hpp(97,6): warning C4552: '-' : résultat de l'expression non utilisé
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Vec3.hpp(98,6): warning C4552: '-' : résultat de l'expression non utilisé
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Vec3.hpp(99,6): warning C4552: '-' : résultat de l'expression non utilisé
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Entite.hpp(116,25): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Entite.hpp(148,25): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Entite.hpp(180,25): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Cube.hpp(2,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Light.hpp(2,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Scene.hpp(436,22): warning C4018: '<' : incompatibilité signed/unsigned
 RayTracing.obj : error LNK2019: symbole externe non résolu "void __cdecl cv::fastFree(void *)" (?fastFree@cv@@YAXPAX@Z) référencé dans la fonction "public: __thiscall cv::Mat::~Mat(void)" (??1Mat@cv@@QAE@XZ)
 RayTracing.obj : error LNK2019: symbole externe non résolu "private: char * __thiscall cv::String::allocate(unsigned int)" (?allocate@String@cv@@AAEPADI@Z) référencé dans la fonction "public: __thiscall cv::String::String(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (??0String@cv@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
 RayTracing.obj : error LNK2019: symbole externe non résolu "private: void __thiscall cv::String::deallocate(void)" (?deallocate@String@cv@@AAEXXZ) référencé dans la fonction "public: __thiscall cv::String::~String(void)" (??1String@cv@@QAE@XZ)
+RayTracing.obj : error LNK2019: symbole externe non résolu "void __cdecl cv::error(int,class cv::String const &,char const *,char const *,int)" (?error@cv@@YAXHABVString@1@PBD1H@Z) référencé dans la fonction "public: float & __thiscall cv::Mat::at<float>(int,int)" (??$at@M@Mat@cv@@QAEAAMHH@Z)
 RayTracing.obj : error LNK2019: symbole externe non résolu "public: class cv::Mat & __thiscall cv::Mat::operator=(class cv::Scalar_<double> const &)" (??4Mat@cv@@QAEAAV01@ABV?$Scalar_@N@1@@Z) référencé dans la fonction "public: __thiscall cv::Mat::Mat(int,int,int,class cv::Scalar_<double> const &)" (??0Mat@cv@@QAE@HHHABV?$Scalar_@N@1@@Z)
+RayTracing.obj : error LNK2019: symbole externe non résolu "public: class cv::MatExpr __thiscall cv::Mat::inv(int)const " (?inv@Mat@cv@@QBE?AVMatExpr@2@H@Z) référencé dans la fonction "public: void __thiscall Entite::Inverse(void)" (?Inverse@Entite@@QAEXXZ)
 RayTracing.obj : error LNK2019: symbole externe non résolu "public: void __thiscall cv::Mat::create(int,int const *,int)" (?create@Mat@cv@@QAEXHPBHH@Z) référencé dans la fonction "public: void __thiscall cv::Mat::create(int,int,int)" (?create@Mat@cv@@QAEXHHH@Z)
 RayTracing.obj : error LNK2019: symbole externe non résolu "public: void __thiscall cv::Mat::deallocate(void)" (?deallocate@Mat@cv@@QAEXXZ) référencé dans la fonction "public: void __thiscall cv::Mat::release(void)" (?release@Mat@cv@@QAEXXZ)
+RayTracing.obj : error LNK2019: symbole externe non résolu "public: void __thiscall cv::Mat::copySize(class cv::Mat const &)" (?copySize@Mat@cv@@QAEXABV12@@Z) référencé dans la fonction "public: __thiscall cv::Mat::Mat(class cv::Mat const &)" (??0Mat@cv@@QAE@ABV01@@Z)
+RayTracing.obj : error LNK2019: symbole externe non résolu "class cv::MatExpr __cdecl cv::operator*(class cv::Mat const &,class cv::Mat const &)" (??Dcv@@YA?AVMatExpr@0@ABVMat@0@0@Z) référencé dans la fonction "public: void __thiscall Entite::rotateX(float)" (?rotateX@Entite@@QAEXM@Z)
+RayTracing.obj : error LNK2019: symbole externe non résolu "public: __thiscall cv::Exception::Exception(void)" (??0Exception@cv@@QAE@XZ) référencé dans la fonction "class Vec4 __cdecl operator*(class cv::Mat,class Vec4 const &)" (??D@YA?AVVec4@@VMat@cv@@ABV0@@Z)
 RayTracing.obj : error LNK2019: symbole externe non résolu "bool __cdecl cv::imwrite(class cv::String const &,class cv::debug_build_guard::_InputArray const &,class std::vector<int,class std::allocator<int> > const &)" (?imwrite@cv@@YA_NABVString@1@ABV_InputArray@debug_build_guard@1@ABV?$vector@HV?$allocator@H@std@@@std@@@Z) référencé dans la fonction _main
-C:\Projet_Annuel\opencv\build\x64\vc15\lib\opencv_world343d.lib : warning LNK4272: type d'ordinateur bibliothèque 'x64' en conflit avec le type d'ordinateur cible 'x86'
-C:\Projet_Annuel\Raytracing\RayTracing\Debug\RayTracing.exe : fatal error LNK1120: 7 externes non résolus
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\opencv\build\x64\vc15\lib\opencv_world343d.lib : warning LNK4272: type d'ordinateur bibliothèque 'x64' en conflit avec le type d'ordinateur cible 'x86'
+C:\Users\picol\OneDrive\Documents\Visual Studio 2019\OpenGL-4A\RayTracingProject\Raytracing\Debug\RayTracing.exe : fatal error LNK1120: 12 externes non résolus
