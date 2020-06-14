@@ -30,5 +30,11 @@ class Ray
 			dir = Vec3(vx, vy, vz);
 			origin = outils::Point(ox, oy, oz);
 		}
+
+		void normalize() {
+
+			dir.normalize();
+
+		}
 #pragma endregion
 };

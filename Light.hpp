@@ -23,6 +23,14 @@ class Light : public Entite
 			return compSpecular;
 		}
 
+		Vec3 getVectorToLight(outils::Point base) {
+
+			Vec3 vectorToLight(position[0] - base[0], position[1] - base[1], position[2] - base[2]);
+
+			return vectorToLight;
+
+		}
+
 		bool Intersection(const Ray& ray, outils::Point& impact) const
 		{
 			return false;

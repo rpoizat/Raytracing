@@ -11,7 +11,7 @@ class CylindreInf : public Entite
 
 		//constructeurs
 		CylindreInf() {};
-		CylindreInf(Vec3 p, Vec3 rot, color c, float r) : Entite(p, rot, c), rayon(r) {}
+		CylindreInf(Vec3 p, Vec3 rot, color c, float r, Material m) : Entite(p, rot, c, m), rayon(r) {}
 
 		//Getteur sur le rayon du cylindre
 		float GetRayon()
@@ -53,5 +53,31 @@ class CylindreInf : public Entite
 				return false;
 			}
 
+		}
+
+		Ray getNormal(const outils::Point& impact, const outils::Point& o)const
+		{
+			outils::Point impactLoc = GlobalToLocal(impact);
+			outils::Point observateurLoc = GlobalToLocal(o);
+
+			Vec3 res;
+			float scal = observateurLoc.dot(impactLoc);
+
+			if(scal <= 1)
+			{
+				res =  Vec3(-impactLoc.GetPosition()[0], -impactLoc.GetPosition()[1], -impactLoc.GetPosition()[2]);
+			}
+			else
+			{
+				res = Vec3(impactLoc.GetPosition()[0], impactLoc.GetPosition()[1], impactLoc.GetPosition()[2]);
+			}
+
+			Ray resRay(impactLoc, res);
+			resRay.dir[1] = 0;
+
+			LocalToGlobal(resRay).normalize();
+			
+
+			return resRay;
 		}
 };

@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "Entite.hpp";
-#include "Material.hpp";
 
 
 using namespace std;
@@ -16,19 +15,12 @@ class Sphere : public Entite
 	public:
 
 		Sphere() {};
-		Sphere(Vec3 p, Vec3 rot, color c, float r) : Entite(p, rot, c), rayon(r){}
-		Sphere(Vec3 p, Vec3 rot, color c, float r, Material m) : Entite(p, rot, c), rayon(r), material(m){}
+		Sphere(Vec3 p, Vec3 rot, color c, float r, Material m) : Entite(p, rot, c, m), rayon(r){}
 
 		//getteur du rayon
 		float GetRayon()
 		{
 			return rayon;
-		}
-
-		//getteur du material
-		Material GetMaterial()
-		{
-			return material;
 		}
 
 
@@ -65,5 +57,32 @@ class Sphere : public Entite
 			{
 				return false;
 			}
+		}
+
+		Ray getNormal(const outils::Point& p, const outils::Point& o) const
+		{
+
+			outils::Point localObservator = GlobalToLocal(o);
+
+			outils::Point newP = GlobalToLocal(p);
+
+			Vec3 localImpact(newP[0], newP[1], newP[2]);
+
+			if (localImpact.dot(localObservator.GetPosition()) >= 0) {
+
+
+				Ray lereturn = LocalToGlobal(Ray(localImpact, localImpact * 1));
+				lereturn.normalize();
+				return lereturn;
+
+			}
+			else {
+
+				Ray lereturn = LocalToGlobal(Ray(localImpact, localImpact * -1));
+				lereturn.normalize();
+				return lereturn;
+
+			}
+
 		}
 };

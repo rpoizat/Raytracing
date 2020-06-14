@@ -2,6 +2,7 @@
 
 #include "Point4.hpp";
 #include "Ray.hpp"
+#include "Material.hpp"
 
 using namespace outils;
 
@@ -13,6 +14,7 @@ class Entite
 		Vec3 rotation;
 		Mat trans;
 		Mat inv;
+		Material material;
 
 		//attribut temporaire en attendant les matériaux
 		color col;
@@ -20,11 +22,42 @@ class Entite
 
 		//Constructeurs
 		Entite() {};
-		Entite(Vec3 p, Vec3 r,  color c)
+		Entite(Vec3 p, Vec3 r, color c)
 		{
 			position = p;
 			rotation = r;
 			col = c;
+			
+
+			trans = Mat(4, 4, CV_32F, 0.f);
+
+			//initialiser la matrice de transformation
+			for (int i = 0; i < trans.rows; i++)
+			{
+				for (int j = 0; j < trans.cols; j++)
+				{
+					if (j == i) trans.at<float>(i, j) = 1.f;
+					else trans.at<float>(i, j) = 0.f;
+				}
+			}
+
+			//ajout de la position
+			trans.at<float>(0, 3) = position[0];
+			trans.at<float>(1, 3) = position[1];
+			trans.at<float>(2, 3) = position[2];
+
+			//ajout de la rotation
+			rotateX(r[0]);
+			rotateY(r[1]);
+			rotateZ(r[2]);
+		}
+
+		Entite(Vec3 p, Vec3 r,  color c, Material m)
+		{
+			position = p;
+			rotation = r;
+			col = c;
+			material = m;
 
 			trans = Mat(4, 4, CV_32F, 0.f);
 			
@@ -70,11 +103,27 @@ class Entite
 			return col;
 		}
 
+		// fonction qui permet de récuperer le material
+		Material GetMaterial()
+		{
+			return material;
+		}
+
 		//fonction virtuelle d'intersection
 		virtual bool Intersection(const Ray& ray, outils::Point& impact) const
 		{
 			return true;
 		}
+
+		//fonction virtuelle permettant de récuperer la normale
+		virtual Ray getNormal(const outils::Point& p, const outils::Point& o) const
+		{
+
+				return Ray();
+
+		}
+
+
 
 #pragma region Fonctions de transformation
 
@@ -233,7 +282,7 @@ class Entite
 		}
 
 		//transposition de local à global pour un Ray
-		Ray LocalToGlobal(const Ray& r)
+		Ray LocalToGlobal(const Ray& r) const
 		{
 			Ray res = r;
 
@@ -241,7 +290,7 @@ class Entite
 			res.origin = LocalToGlobal(res.origin);
 
 			return res;
-		}const
+		}
 
 #pragma endregion
 
@@ -281,6 +330,8 @@ class Entite
 
 			return res;
 		}
+
+
 
 #pragma endregion
 };

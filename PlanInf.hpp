@@ -1,5 +1,6 @@
-#pragma once
+ï»¿#pragma once
 #include "Entite.hpp"
+
 
 class PlanInf : public Entite
 {
@@ -7,7 +8,7 @@ class PlanInf : public Entite
 
 		//constructeurs
 		PlanInf() {};
-		PlanInf(Vec3 p, Vec3 rot, color c) : Entite(p, rot, c){}
+		PlanInf(Vec3 p, Vec3 rot, color c, Material m) : Entite(p, rot, c, m){}
 
 		//Getteur sur la position
 		Vec3 GetPosition()
@@ -15,7 +16,7 @@ class PlanInf : public Entite
 			return position;
 		}
 
-		//fonction d'intersection entre le plan infini et le rayon donné en paramètre
+		//fonction d'intersection entre le plan infini et le rayon donnÃ© en paramÃ¨tre
 		bool Intersection(const Ray& ray, outils::Point& impact) const override
 		{
 			Ray localRay = GlobalToLocal(ray);
@@ -36,4 +37,26 @@ class PlanInf : public Entite
 				return false;
 			}
 		}
+
+		Ray getNormal(const outils::Point& impact, const outils::Point& observator)const {
+
+			int z;
+
+			outils::Point localObservator = GlobalToLocal(observator);
+
+			if (localObservator[2] >= 0) {
+				z = 1;
+			}
+
+			else {
+				z = -1;
+			}
+
+			Vec3 v(0, 0, z);
+
+			Ray r(GlobalToLocal(impact), v);
+
+			return LocalToGlobal(r);
+		}
+
 };

@@ -11,6 +11,7 @@ namespace outils {
 		color kd;
 		color ks;
 
+		// Positif, plus la valeur est grande plus la surface est brillante.
 		float shininess;
 
 		Material() {

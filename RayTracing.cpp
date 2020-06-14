@@ -10,6 +10,9 @@
 
 using namespace std;
 using namespace cv;
+// equivalent a typedef vec3 color;
+using Color = Vec3;
+
 
 //fonction pour ouvrir une boîte de dialogue pour choisir le fichier de la scène
 string GetNomFicherScene()

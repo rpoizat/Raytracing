@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include "Entite.hpp";
 
 class Cube : public Entite
@@ -10,15 +10,87 @@ public:
 
 	//constructeurs
 	Cube() {};
-	Cube(Vec3 p, Vec3 rot, color co, float c) : Entite(p, rot, co), cote(c) {}
+	Cube(Vec3 p, Vec3 rot, color co, float c, Material m) : Entite(p, rot, co, m), cote(c) {}
 
-	//getteur sur la cote du carrÈ
+	//getteur sur la cote du carr√©
 	float GetCote()
 	{
 		return cote;
 	}
 
-	//fonction d'intersection du cube avec le rayon donnÈ en paramËtre
+    Ray getNormal(const outils::Point& p, const outils::Point& o)const {
+
+
+        outils::Point localImpact = GlobalToLocal(p);
+		outils::Point localObservator = GlobalToLocal(o);
+
+        float z;
+
+        if (abs(localImpact[0]) > abs(localImpact[1]) && abs(localImpact[0]) > abs(localImpact[2])) {
+
+
+            if (localObservator[0] >= 0) {
+                z = localImpact[0];
+                Vec3 v(1, 0, 0);
+				Ray lereturn = LocalToGlobal(Ray(localImpact, v));
+				lereturn.normalize();
+                return lereturn;
+            }
+
+            else {
+                z = localImpact[0];
+				Vec3 v(-1, 0, 0);
+				Ray lereturn = LocalToGlobal(Ray(localImpact, v));
+				lereturn.normalize();
+				return lereturn;
+            }
+
+
+        }
+
+        if (abs(localImpact[1]) > abs(localImpact[0]) && abs(localImpact[1]) > abs(localImpact[2])) {
+
+            if (localObservator[1] >= 0) {
+                z = localImpact[1];
+				Vec3 v(0, 1, 0);
+				Ray lereturn = LocalToGlobal(Ray(localImpact, v));
+				lereturn.normalize();
+				return lereturn;
+            }
+
+            else {
+                z = localImpact[1];
+				Vec3 v(0, -1, 0);
+				Ray lereturn = LocalToGlobal(Ray(localImpact, v));
+				lereturn.normalize();
+				return lereturn;
+            }
+
+        }
+
+        if (abs(localImpact[2]) > abs(localImpact[0]) && abs(localImpact[2]) > abs(localImpact[1])) {
+
+            if (localObservator[2] >= 0) {
+                z = localImpact[2];
+				Vec3 v(0, 0, 1);
+				Ray lereturn = LocalToGlobal(Ray(localImpact, v));
+				lereturn.normalize();
+				return lereturn;
+            }
+
+            else {
+                z = localImpact[2];
+				Vec3 v(0, 0, -1);
+				Ray lereturn = LocalToGlobal(Ray(localImpact, v));
+				lereturn.normalize();
+				return lereturn;
+            }
+
+        }
+
+    }
+
+	//fonction d'intersection du cube avec le rayon donn√© en param√®tre
 	bool Intersection(const Ray& ray, outils::Point& impact)const override
 	{
 		//Passage en locale
