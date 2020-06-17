@@ -52,11 +52,10 @@ class Entite
 			rotateZ(r[2]);
 		}
 
-		Entite(Vec3 p, Vec3 r,  color c, Material m)
+		Entite(Vec3 p, Vec3 r, Material m)
 		{
 			position = p;
 			rotation = r;
-			col = c;
 			material = m;
 
 			trans = Mat(4, 4, CV_32F, 0.f);

@@ -10,7 +10,7 @@ public:
 
 	//constructeurs
 	Cube() {};
-	Cube(Vec3 p, Vec3 rot, color co, float c, Material m) : Entite(p, rot, co, m), cote(c) {}
+	Cube(Vec3 p, Vec3 rot, float c, Material m) : Entite(p, rot, m), cote(c) {}
 
 	//getteur sur la cote du carré
 	float GetCote()

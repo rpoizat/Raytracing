@@ -54,15 +54,15 @@ public:
 #pragma region fonctions ajout objets
 
 	//fonction pour ajouter un objet à la scène
-	void ajoutObjet(Sphere e)
+	/*void ajoutObjet(Sphere e)
 	{
 		Entite* newObj = new Sphere(e.GetPosition(), e.GetRotation(), e.GetColor(), e.GetRayon(), e.GetMaterial());
 		listeObjets.push_back(newObj);
-	}
+	}*/
 
 	void ajoutObjetMaterial(Sphere e)
 	{
-		Entite* newObj = new Sphere(e.GetPosition(), e.GetRotation(), e.GetColor(), e.GetRayon(), e.GetMaterial());
+		Entite* newObj = new Sphere(e.GetPosition(), e.GetRotation(), e.GetRayon(), e.GetMaterial());
 		listeObjets.push_back(newObj);
 	}
 
@@ -76,21 +76,21 @@ public:
 	//fonction pour ajouter un cube à la scène
 	void ajoutObjet(Cube e)
 	{
-		Entite* newObj = new Cube(e.GetPosition(), e.GetRotation(), e.GetColor(), e.GetCote(), e.GetMaterial());
+		Entite* newObj = new Cube(e.GetPosition(), e.GetRotation(), e.GetCote(), e.GetMaterial());
 		listeObjets.push_back(newObj);
 	}
 
 	//fonction pour ajouter un cylindre infini à la scène
 	void ajoutObjet(CylindreInf e)
 	{
-		Entite* newObj = new CylindreInf(e.GetPosition(), e.GetRotation(), e.GetColor(), e.GetRayon(), e.GetMaterial());
+		Entite* newObj = new CylindreInf(e.GetPosition(), e.GetRotation(), e.GetRayon(), e.GetMaterial());
 		listeObjets.push_back(newObj);
 	}
 
 	//fonction pour ajouter un plan infini à la scène
 	void ajoutObjet(PlanInf e)
 	{
-		Entite* newObj = new PlanInf(e.GetPosition(), e.GetRotation(), e.GetColor(), e.GetMaterial());
+		Entite* newObj = new PlanInf(e.GetPosition(), e.GetRotation(), e.GetMaterial());
 		listeObjets.push_back(newObj);
 	}
 
@@ -196,10 +196,9 @@ public:
 			//récupération de la position
 			vector<string> donneesPosition = explode(donnees.at(1), '_');
 
-
 			Material mat;
 			//Récuperation données composante ambiante
-			vector<string> donneesAmbiante = explode(donnees.at(6), '_');
+			vector<string> donneesAmbiante = explode(donnees.at(5), '_');
 
 			if (donneesAmbiante.size() == 3)
 			{
@@ -217,7 +216,7 @@ public:
 			}
 
 			//Récuperation données composante diffuse
-			vector<string> donneesDiffuse = explode(donnees.at(7), '_');
+			vector<string> donneesDiffuse = explode(donnees.at(6), '_');
 
 			if (donneesDiffuse.size() == 3)
 			{
@@ -235,7 +234,7 @@ public:
 			}
 
 			//Récuperation données composante spéculaire
-			vector<string> donneesSpeculaire = explode(donnees.at(8), '_');
+			vector<string> donneesSpeculaire = explode(donnees.at(7), '_');
 
 			if (donneesSpeculaire.size() == 3)
 			{
@@ -253,7 +252,7 @@ public:
 			}
 
 			//Récuperation données Shininess
-			vector<string> donneeShininess = explode(donnees.at(9), '_');
+			vector<string> donneeShininess = explode(donnees.at(8), '_');
 
 			if (donneeShininess.size() == 1)
 			{
@@ -312,7 +311,7 @@ public:
 			else rayon = 1.f;
 
 			//création de la sphère
-			Sphere s(position, rotation, color(255.f, 0.f, 0.f), rayon, mat);
+			Sphere s(position, rotation, rayon, mat);
 
 			//ajout de la sphère à la liste des objets
 			ajoutObjetMaterial(s);
@@ -330,10 +329,9 @@ public:
 		//création d'un cube vert
 		case str2int("cube"):
 		{
-
 			Material mat;
 			//Récuperation données composante ambiante
-			vector<string> donneesAmbiante = explode(donnees.at(6), '_');
+			vector<string> donneesAmbiante = explode(donnees.at(5), '_');
 
 			if (donneesAmbiante.size() == 3)
 			{
@@ -351,7 +349,7 @@ public:
 			}
 
 			//Récuperation données composante diffuse
-			vector<string> donneesDiffuse = explode(donnees.at(7), '_');
+			vector<string> donneesDiffuse = explode(donnees.at(6), '_');
 
 			if (donneesDiffuse.size() == 3)
 			{
@@ -369,7 +367,7 @@ public:
 			}
 
 			//Récuperation données composante spéculaire
-			vector<string> donneesSpeculaire = explode(donnees.at(8), '_');
+			vector<string> donneesSpeculaire = explode(donnees.at(7), '_');
 
 			if (donneesSpeculaire.size() == 3)
 			{
@@ -387,7 +385,7 @@ public:
 			}
 
 			//Récuperation données Shininess
-			vector<string> donneeShininess = explode(donnees.at(9), '_');
+			vector<string> donneeShininess = explode(donnees.at(8), '_');
 
 			if (donneeShininess.size() == 1)
 			{
@@ -449,7 +447,7 @@ public:
 			else cote = 1.f;
 
 			//création du cube
-			Cube c(position, rotation, color(0.f, 255.f, 0.f), cote, mat);
+			Cube c(position, rotation, cote, mat);
 
 			//ajout du cube à la liste des objets
 			ajoutObjet(c);
@@ -464,7 +462,7 @@ public:
 		{
 			Material mat;
 			//Récuperation données composante ambiante
-			vector<string> donneesAmbiante = explode(donnees.at(6), '_');
+			vector<string> donneesAmbiante = explode(donnees.at(5), '_');
 
 			if (donneesAmbiante.size() == 3)
 			{
@@ -482,7 +480,7 @@ public:
 			}
 
 			//Récuperation données composante diffuse
-			vector<string> donneesDiffuse = explode(donnees.at(7), '_');
+			vector<string> donneesDiffuse = explode(donnees.at(6), '_');
 
 			if (donneesDiffuse.size() == 3)
 			{
@@ -500,7 +498,7 @@ public:
 			}
 
 			//Récuperation données composante spéculaire
-			vector<string> donneesSpeculaire = explode(donnees.at(8), '_');
+			vector<string> donneesSpeculaire = explode(donnees.at(7), '_');
 
 			if (donneesSpeculaire.size() == 3)
 			{
@@ -518,7 +516,7 @@ public:
 			}
 
 			//Récuperation données Shininess
-			vector<string> donneeShininess = explode(donnees.at(9), '_');
+			vector<string> donneeShininess = explode(donnees.at(8), '_');
 
 			if (donneeShininess.size() == 1)
 			{
@@ -580,7 +578,7 @@ public:
 			else rayon = 1.f;
 
 			//création du cylindre
-			CylindreInf c(position, rotation, color(0.f, 0.f, 255.f), rayon, mat);
+			CylindreInf c(position, rotation, rayon, mat);
 
 			//ajout du cylindre à la liste des objets
 			ajoutObjet(c);
@@ -703,7 +701,7 @@ public:
 			}
 
 			//création de la sphère
-			PlanInf p(position, color(20.f, 20.f, 20.f), rotation, mat);
+			PlanInf p(position, rotation, mat);
 
 			//ajout du cylindre à la liste des objets
 			ajoutObjet(p);
@@ -785,15 +783,13 @@ public:
 		}
 	}
 
-
-
-
 	//fonction pour définir la couleur du  pixel correspondant au Ray donné en paramètre
 	color RayTrace(Ray r)
 	{
 		float zMax = 100.f;
 		int indiceZMax = -1;
 		outils::Point impact;
+		outils::Point impactMax;
 
 		//recherche de l'impact le plus proche
 		for (int i = 0; i < listeObjets.size(); i++)
@@ -806,30 +802,25 @@ public:
 				if (impact[2] < zMax)
 				{
 					zMax = impact[2];
+					impactMax = impact;
 					indiceZMax = i;
 				}
 			}
 		}
 
 		//si on a eu un impact
-		if (indiceZMax != -1)
+		if (indiceZMax >= 0)
 		{
-
 			//traiter l'illumination et les ombres
-			return SceneGetImpactColor(r, *listeObjets[indiceZMax], impact, this);
+			return SceneGetImpactColor(r, *listeObjets[indiceZMax], impactMax, this);
 
 		}
 		else return color(0.f, 0.f, 0.f);
 	}
 
-
-
 	color SceneGetImpactColor(Ray& ray, Entite& obj, outils::Point& impact, const Scene& scene)
 	{ 
-
-
 		Material m = Material(obj.GetMaterial().ka * (1.f / 255.f), obj.GetMaterial().kd * (1.f / 255.f), obj.GetMaterial().ks * (1.f / 255.f), obj.GetMaterial().shininess);
-
 
 		Ray normal = obj.getNormal(impact, ray.origin);
 		color col = m.ka*(ambiant*(1.f/255.f));
@@ -843,7 +834,7 @@ public:
 			Vec3 vecteurLight = light->getVectorToLight(impact);
 
 			float a = vecteurLight.dot(normal.dir);
-			cout << a << std::endl;
+			//cout << a << std::endl;
 			if (a > 0)
 			{
 				color colortmp = (ldif * (m.kd));

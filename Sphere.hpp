@@ -15,14 +15,13 @@ class Sphere : public Entite
 	public:
 
 		Sphere() {};
-		Sphere(Vec3 p, Vec3 rot, color c, float r, Material m) : Entite(p, rot, c, m), rayon(r){}
+		Sphere(Vec3 p, Vec3 rot, float r, Material m) : Entite(p, rot, m), rayon(r){}
 
 		//getteur du rayon
 		float GetRayon()
 		{
 			return rayon;
 		}
-
 
 		//fonction d'intersection entre la sphère et le rayon donné en paramètre
 		bool Intersection(const Ray& ray, outils::Point& impact) const override
@@ -61,28 +60,25 @@ class Sphere : public Entite
 
 		Ray getNormal(const outils::Point& p, const outils::Point& o) const
 		{
+			outils::Point impactLoc = GlobalToLocal(p);
+			outils::Point observateurLoc = GlobalToLocal(o);
 
-			outils::Point localObservator = GlobalToLocal(o);
+			Vec3 res;
+			float scal = observateurLoc.dot(impactLoc);
 
-			outils::Point newP = GlobalToLocal(p);
-
-			Vec3 localImpact(newP[0], newP[1], newP[2]);
-
-			if (localImpact.dot(localObservator.GetPosition()) >= 0) {
-
-
-				Ray lereturn = LocalToGlobal(Ray(localImpact, localImpact * 1));
-				lereturn.normalize();
-				return lereturn;
-
+			if (scal <= 1)
+			{
+				res = impactLoc.GetPosition() * -1;
 			}
-			else {
-
-				Ray lereturn = LocalToGlobal(Ray(localImpact, localImpact * -1));
-				lereturn.normalize();
-				return lereturn;
-
+			else
+			{
+				res = impactLoc.GetPosition();
 			}
+
+			Ray resRay(impactLoc, res);
+			resRay = LocalToGlobal(resRay);
+			resRay.normalize();
+			return resRay;
 
 		}
 };

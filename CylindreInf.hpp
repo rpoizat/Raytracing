@@ -11,7 +11,7 @@ class CylindreInf : public Entite
 
 		//constructeurs
 		CylindreInf() {};
-		CylindreInf(Vec3 p, Vec3 rot, color c, float r, Material m) : Entite(p, rot, c, m), rayon(r) {}
+		CylindreInf(Vec3 p, Vec3 rot, float r, Material m) : Entite(p, rot, m), rayon(r) {}
 
 		//Getteur sur le rayon du cylindre
 		float GetRayon()
