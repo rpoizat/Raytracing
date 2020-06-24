@@ -159,25 +159,28 @@ int main()
 	{
 		for (int i = 0; i < largeur; i++)
 		{
-			// calcul des coordonnees monde des pixels
-			float x = aspectRatio * 2.f * (float(i - largeur / 2) + 0.5f) / largeur;
-			float y = -2.f * (float(j - hauteur / 2) + 0.5f) / hauteur;
+			//if (j == hauteur / 2)
+			{
+				// calcul des coordonnees monde des pixels
+				float x = aspectRatio * 2.f * (float(i - largeur / 2) + 0.5f) / largeur;
+				float y = -2.f * (float(j - hauteur / 2) + 0.5f) / hauteur;
 
-			// Generation du rayon primaire
-			Ray ray(0.f, 0.f, 0.f, x, y, 1);
-			ray.dir.normalize();
+				// Generation du rayon primaire
+				Ray ray(0.f, 0.f, 0.f, x, y, 1);
+				ray.dir.normalize();
 
-			//définir la couleur du pixel
-			color couleurPix = scene.RayTrace(ray);
+				//définir la couleur du pixel
+				color couleurPix = scene.RayTrace(ray);
 
-			int b = (int)couleurPix[0];
-			int g = (int)couleurPix[1];
-			int r = (int)couleurPix[2];
+				int b = (int)couleurPix[0];
+				int g = (int)couleurPix[1];
+				int r = (int)couleurPix[2];
 
-			//appliquer la couleur au pixel
-			rendu.at<Vec3b>(j, i)[0] = r;
-			rendu.at<Vec3b>(j, i)[1] = g;
-			rendu.at<Vec3b>(j, i)[2] = b;
+				//appliquer la couleur au pixel
+				rendu.at<Vec3b>(j, i)[0] = r;
+				rendu.at<Vec3b>(j, i)[1] = g;
+				rendu.at<Vec3b>(j, i)[2] = b;
+			}
 		}
 	}
 

@@ -33,7 +33,7 @@ class Ray
 
 		void normalize() {
 
-			dir.normalize();
+			dir = dir.normalize();
 
 		}
 #pragma endregion

@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "Entite.hpp"
 
+
+
 class CylindreInf : public Entite
 {
 	private:
@@ -26,7 +28,7 @@ class CylindreInf : public Entite
 
 			float a = pow(localR.dir[0], 2) + pow(localR.dir[2], 2);
 			float b = 2 * (localR.origin[0] * localR.dir[0] + localR.origin[2] * localR.dir[2]);
-			float c = pow(localR.origin[0], 2) + pow(localR.origin[2], 2) - 1;
+			float c = pow(localR.origin[0], 2) + pow(localR.origin[2], 2) - rayon;
 
 			float delta = pow(b, 2) - 4 * a*c;
 
@@ -63,20 +65,20 @@ class CylindreInf : public Entite
 			Vec3 res;
 			float scal = observateurLoc.dot(impactLoc);
 
-			if(scal <= 1)
+			if (scal <= 1.0f)
 			{
-				res =  Vec3(-impactLoc.GetPosition()[0], -impactLoc.GetPosition()[1], -impactLoc.GetPosition()[2]);
+				res = impactLoc.GetPosition() * -1.0f;
 			}
 			else
 			{
-				res = Vec3(impactLoc.GetPosition()[0], impactLoc.GetPosition()[1], impactLoc.GetPosition()[2]);
+				res = impactLoc.GetPosition();
 			}
 
 			Ray resRay(impactLoc, res);
-			resRay.dir[1] = 0;
+			resRay.dir[1] = 0.0f;
+			resRay.normalize();
 
-			LocalToGlobal(resRay).normalize();
-			
+			resRay = LocalToGlobal(resRay);
 
 			return resRay;
 		}

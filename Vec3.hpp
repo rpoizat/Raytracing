@@ -3,6 +3,8 @@
 #include <cmath>
 using namespace std;
 
+const float EPSILON = 0.0001f;
+
 class Vec3
 {
 	private:
@@ -112,7 +114,7 @@ class Vec3
 		}
 
 		//mutliplication avec un Vec3
-		inline Vec3 operator *=(const Vec3& v)
+		inline Vec3 operator*=(const Vec3& v)
 		{
 			x *= v.x;
 			y *= v.y;
@@ -121,6 +123,23 @@ class Vec3
 			return *this;
 		}
 
+		inline bool operator==(const Vec3& v)
+		{
+			//si c'est le cas, les x sont vraiment très très proches
+			if (x + EPSILON > v.x && v.x + EPSILON > x)
+			{
+				//si c'est le cas, les y sont vraiment très très proches
+				if (y + EPSILON > v.y && v.y + EPSILON > y)
+				{
+					//si c'est le cas, les z sont vraiment très très proches
+					if (z + EPSILON > v.z && v.z + EPSILON > z)
+					{
+						return true;
+					}
+				}
+			}
+			else return false;
+		}
 #pragma endregion
 
 #pragma region Fonctions
@@ -169,6 +188,11 @@ inline Vec3 operator+(Vec3 v1, const Vec3& v2)
 inline Vec3 operator-(Vec3 v1, const Vec3& v2)
 {
 	return v1 -= v2;
+}
+
+inline Vec3 operator*(const float& f, Vec3 v1)
+{
+	return v1 *= f;
 }
 
 //operateur de flux

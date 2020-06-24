@@ -19,7 +19,7 @@ class Scene
 private:
 	vector<Entite*> listeObjets;
 	vector<Light*> listeLumieres;
-	color ambiant = color(0, 0, 0);
+	color ambiant = color(0.0f, 0.0f, 0.0f);
 
 	//option d'activer/désactiver les ombres
 	bool ombre;
@@ -189,7 +189,6 @@ public:
 				break;
 			}*/
 
-
 			//Cas pour tester une ligne du fichier qui renseigne sur une sphère et son material
 		case str2int("sphereMat"):
 		{
@@ -202,9 +201,9 @@ public:
 
 			if (donneesAmbiante.size() == 3)
 			{
-				mat.ka[0] = stof(donneesAmbiante.at(0));
-				mat.ka[1] = stof(donneesAmbiante.at(1));
-				mat.ka[2] = stof(donneesAmbiante.at(2));
+				mat.ka[0] = stof(donneesAmbiante.at(0)) * (1.0f / 255.0f);
+				mat.ka[1] = stof(donneesAmbiante.at(1)) * (1.0f / 255.0f);
+				mat.ka[2] = stof(donneesAmbiante.at(2)) * (1.0f / 255.0f);
 
 			}
 			else
@@ -220,9 +219,9 @@ public:
 
 			if (donneesDiffuse.size() == 3)
 			{
-				mat.kd[0] = stof(donneesDiffuse.at(0));
-				mat.kd[1] = stof(donneesDiffuse.at(1));
-				mat.kd[2] = stof(donneesDiffuse.at(2));
+				mat.kd[0] = stof(donneesDiffuse.at(0)) * (1.0f /255.0f);
+				mat.kd[1] = stof(donneesDiffuse.at(1)) * (1.0f /255.0f);
+				mat.kd[2] = stof(donneesDiffuse.at(2)) * (1.0f /255.0f);
 
 			}
 			else
@@ -238,9 +237,9 @@ public:
 
 			if (donneesSpeculaire.size() == 3)
 			{
-				mat.ks[0] = stof(donneesSpeculaire.at(0));
-				mat.ks[1] = stof(donneesSpeculaire.at(1));
-				mat.ks[2] = stof(donneesSpeculaire.at(2));
+				mat.ks[0] = stof(donneesSpeculaire.at(0)) * (1.0f/255.0f);
+				mat.ks[1] = stof(donneesSpeculaire.at(1)) * (1.0f/255.0f);
+				mat.ks[2] = stof(donneesSpeculaire.at(2)) * (1.0f/255.0f);
 
 			}
 			else
@@ -318,9 +317,9 @@ public:
 
 			cout << "ajout d'une sphere de rayon " << s.GetRayon() << " a la position " << s.GetPosition() << " de rotation " << s.GetRotation() <<
 
-				"avec le composante ka(" << mat.ka[0] << ", " << mat.ka[1] << ", " << mat.ka[2] << ")" <<
-				"avec le composante kd(" << mat.kd[0] << ", " << mat.kd[1] << ", " << mat.kd[2] << ")"
-				"avec le composante ks(" << mat.ks[0] << ", " << mat.ks[1] << ", " << mat.ks[2] << ")"
+				"avec le composante ka(" << mat.ka[0] * 255.0f << ", " << mat.ka[1] * 255.0f << ", " << mat.ka[2] * 255.0f << ")" <<
+				"avec le composante kd(" << mat.kd[0] * 255.0f << ", " << mat.kd[1] * 255.0f << ", " << mat.kd[2] * 255.0f << ")"
+				"avec le composante ks(" << mat.ks[0] * 255.0f << ", " << mat.ks[1] * 255.0f << ", " << mat.ks[2] * 255.0f << ")"
 				" et de shininess " << mat.shininess << endl;
 
 			break;
@@ -335,17 +334,17 @@ public:
 
 			if (donneesAmbiante.size() == 3)
 			{
-				mat.ka[0] = stof(donneesAmbiante.at(0));
-				mat.ka[1] = stof(donneesAmbiante.at(1));
-				mat.ka[2] = stof(donneesAmbiante.at(2));
+				mat.ka[0] = stof(donneesAmbiante.at(0)) * (1.0f/255.0f);
+				mat.ka[1] = stof(donneesAmbiante.at(1)) * (1.0f/255.0f);
+				mat.ka[2] = stof(donneesAmbiante.at(2)) * (1.0f/255.0f);
 
 			}
 			else
 			{
 				cout << "Donnees invalides sur la composante ambiante de la sphère , remplacement par un vec3(0,0,0)" << endl;
-				mat.ka[0] = 0;
-				mat.ka[1] = 0;
-				mat.ka[2] = 0;
+				mat.ka[0] = 0.0f;
+				mat.ka[1] = 0.0f;
+				mat.ka[2] = 0.0f;
 			}
 
 			//Récuperation données composante diffuse
@@ -353,17 +352,17 @@ public:
 
 			if (donneesDiffuse.size() == 3)
 			{
-				mat.kd[0] = stof(donneesDiffuse.at(0));
-				mat.kd[1] = stof(donneesDiffuse.at(1));
-				mat.kd[2] = stof(donneesDiffuse.at(2));
+				mat.kd[0] = stof(donneesDiffuse.at(0)) * (1.0f / 255.0f);
+				mat.kd[1] = stof(donneesDiffuse.at(1)) * (1.0f / 255.0f);
+				mat.kd[2] = stof(donneesDiffuse.at(2)) * (1.0f / 255.0f);
 
 			}
 			else
 			{
 				cout << "Donnees invalides sur la composante diffuse du cube , remplacement par un vec3(0,0,0)" << endl;
-				mat.kd[0] = 0;
-				mat.kd[1] = 0;
-				mat.kd[2] = 0;
+				mat.kd[0] = 0.0f;
+				mat.kd[1] = 0.0f;
+				mat.kd[2] = 0.0f;
 			}
 
 			//Récuperation données composante spéculaire
@@ -371,17 +370,17 @@ public:
 
 			if (donneesSpeculaire.size() == 3)
 			{
-				mat.ks[0] = stof(donneesSpeculaire.at(0));
-				mat.ks[1] = stof(donneesSpeculaire.at(1));
-				mat.ks[2] = stof(donneesSpeculaire.at(2));
+				mat.ks[0] = stof(donneesSpeculaire.at(0)) * (1.0f / 255.0f);
+				mat.ks[1] = stof(donneesSpeculaire.at(1)) * (1.0f / 255.0f);
+				mat.ks[2] = stof(donneesSpeculaire.at(2)) * (1.0f / 255.0f);
 
 			}
 			else
 			{
 				cout << "Donnees invalides sur la composante spéculaire du cube , remplacement par un vec3(0,0,0)" << endl;
-				mat.ks[0] = 0;
-				mat.ks[1] = 0;
-				mat.ks[2] = 0;
+				mat.ks[0] = 0.0f;
+				mat.ks[1] = 0.0f;
+				mat.ks[2] = 0.0f;
 			}
 
 			//Récuperation données Shininess
@@ -452,7 +451,9 @@ public:
 			//ajout du cube à la liste des objets
 			ajoutObjet(c);
 
-			cout << "ajout d'une cube de cote " << c.GetCote() << " a la position " << c.GetPosition() << " de rotation " << c.GetRotation() << endl;
+			cout << "ajout d'une cube de cote " << c.GetCote() << " a la position " << c.GetPosition() << " de rotation " << c.GetRotation() 
+				<< "avec le materiau d'ambiant " << mat.ka * 255 << " de diffuse " << mat.kd * 255 << " de speculaire "
+				<< mat.ks * 255 << " et de shininess " << mat.shininess <<endl;
 
 			break;
 		}
@@ -466,17 +467,17 @@ public:
 
 			if (donneesAmbiante.size() == 3)
 			{
-				mat.ka[0] = stof(donneesAmbiante.at(0));
-				mat.ka[1] = stof(donneesAmbiante.at(1));
-				mat.ka[2] = stof(donneesAmbiante.at(2));
+				mat.ka[0] = stof(donneesAmbiante.at(0)) * (1.0f / 255.0f);
+				mat.ka[1] = stof(donneesAmbiante.at(1)) * (1.0f / 255.0f);
+				mat.ka[2] = stof(donneesAmbiante.at(2)) * (1.0f / 255.0f);
 
 			}
 			else
 			{
 				cout << "Donnees invalides sur la composante ambiante du cylindre , remplacement par un vec3(0,0,0)" << endl;
-				mat.ka[0] = 0;
-				mat.ka[1] = 0;
-				mat.ka[2] = 0;
+				mat.ka[0] = 0.0f;
+				mat.ka[1] = 0.0f;
+				mat.ka[2] = 0.0f;
 			}
 
 			//Récuperation données composante diffuse
@@ -484,17 +485,17 @@ public:
 
 			if (donneesDiffuse.size() == 3)
 			{
-				mat.kd[0] = stof(donneesDiffuse.at(0));
-				mat.kd[1] = stof(donneesDiffuse.at(1));
-				mat.kd[2] = stof(donneesDiffuse.at(2));
+				mat.kd[0] = stof(donneesDiffuse.at(0)) * (1.0f / 255.0f);
+				mat.kd[1] = stof(donneesDiffuse.at(1)) * (1.0f / 255.0f);
+				mat.kd[2] = stof(donneesDiffuse.at(2)) * (1.0f / 255.0f);
 
 			}
 			else
 			{
 				cout << "Donnees invalides sur la composante diffuse du cylindre , remplacement par un vec3(0,0,0)" << endl;
-				mat.kd[0] = 0;
-				mat.kd[1] = 0;
-				mat.kd[2] = 0;
+				mat.kd[0] = 0.0f;
+				mat.kd[1] = 0.0f;
+				mat.kd[2] = 0.0f;
 			}
 
 			//Récuperation données composante spéculaire
@@ -502,17 +503,17 @@ public:
 
 			if (donneesSpeculaire.size() == 3)
 			{
-				mat.ks[0] = stof(donneesSpeculaire.at(0));
-				mat.ks[1] = stof(donneesSpeculaire.at(1));
-				mat.ks[2] = stof(donneesSpeculaire.at(2));
+				mat.ks[0] = stof(donneesSpeculaire.at(0)) * (1.0f / 255.0f);
+				mat.ks[1] = stof(donneesSpeculaire.at(1)) * (1.0f / 255.0f);
+				mat.ks[2] = stof(donneesSpeculaire.at(2)) * (1.0f / 255.0f);
 
 			}
 			else
 			{
 				cout << "Donnees invalides sur la composante spéculaire du cylindre , remplacement par un vec3(0,0,0)" << endl;
-				mat.ks[0] = 0;
-				mat.ks[1] = 0;
-				mat.ks[2] = 0;
+				mat.ks[0] = 0.0f;
+				mat.ks[1] = 0.0f;
+				mat.ks[2] = 0.0f;
 			}
 
 			//Récuperation données Shininess
@@ -583,7 +584,11 @@ public:
 			//ajout du cylindre à la liste des objets
 			ajoutObjet(c);
 
-			cout << "ajout d'un cylindre infini de rayon " << c.GetRayon() << " a la position " << c.GetPosition() << " de rotation " << c.GetRotation() << endl;
+			cout << "ajout d'un cylindre infini de rayon " << c.GetRayon() << " a la position " << c.GetPosition() << " de rotation " << c.GetRotation() <<
+				"avec le composante ka(" << mat.ka[0] * 255.0f << ", " << mat.ka[1] * 255.0f << ", " << mat.ka[2] * 255.0f << ")" <<
+				"avec le composante kd(" << mat.kd[0] * 255.0f << ", " << mat.kd[1] * 255.0f << ", " << mat.kd[2] * 255.0f << ")"
+				"avec le composante ks(" << mat.ks[0] * 255.0f << ", " << mat.ks[1] * 255.0f << ", " << mat.ks[2] * 255.0f << ")"
+				" et de shininess " << mat.shininess << endl;
 
 			break;
 		}
@@ -598,17 +603,17 @@ public:
 
 			if (donneesAmbiante.size() == 3)
 			{
-				mat.ka[0] = stof(donneesAmbiante.at(0));
-				mat.ka[1] = stof(donneesAmbiante.at(1));
-				mat.ka[2] = stof(donneesAmbiante.at(2));
+				mat.ka[0] = stof(donneesAmbiante.at(0)) * (1.0f / 255.0f);
+				mat.ka[1] = stof(donneesAmbiante.at(1)) * (1.0f / 255.0f);
+				mat.ka[2] = stof(donneesAmbiante.at(2)) * (1.0f / 255.0f);
 
 			}
 			else
 			{
 				cout << "Donnees invalides sur la composante ambiante du plan , remplacement par un vec3(0,0,0)" << endl;
-				mat.ka[0] = 0;
-				mat.ka[1] = 0;
-				mat.ka[2] = 0;
+				mat.ka[0] = 0.0f;
+				mat.ka[1] = 0.0f;
+				mat.ka[2] = 0.0f;
 			}
 
 			//Récuperation données composante diffuse
@@ -616,17 +621,17 @@ public:
 
 			if (donneesDiffuse.size() == 3)
 			{
-				mat.kd[0] = stof(donneesDiffuse.at(0));
-				mat.kd[1] = stof(donneesDiffuse.at(1));
-				mat.kd[2] = stof(donneesDiffuse.at(2));
+				mat.kd[0] = stof(donneesDiffuse.at(0)) * (1.0f / 255.0f);
+				mat.kd[1] = stof(donneesDiffuse.at(1)) * (1.0f / 255.0f);
+				mat.kd[2] = stof(donneesDiffuse.at(2)) * (1.0f / 255.0f);
 
 			}
 			else
 			{
 				cout << "Donnees invalides sur la composante diffuse du plan , remplacement par un vec3(0,0,0)" << endl;
-				mat.kd[0] = 0;
-				mat.kd[1] = 0;
-				mat.kd[2] = 0;
+				mat.kd[0] = 0.0f;
+				mat.kd[1] = 0.0f;
+				mat.kd[2] = 0.0f;
 			}
 
 			//Récuperation données composante spéculaire
@@ -634,17 +639,17 @@ public:
 
 			if (donneesSpeculaire.size() == 3)
 			{
-				mat.ks[0] = stof(donneesSpeculaire.at(0));
-				mat.ks[1] = stof(donneesSpeculaire.at(1));
-				mat.ks[2] = stof(donneesSpeculaire.at(2));
+				mat.ks[0] = stof(donneesSpeculaire.at(0)) * (1.0f / 255.0f);
+				mat.ks[1] = stof(donneesSpeculaire.at(1)) * (1.0f / 255.0f);
+				mat.ks[2] = stof(donneesSpeculaire.at(2)) * (1.0f / 255.0f);
 
 			}
 			else
 			{
 				cout << "Donnees invalides sur la composante spéculaire du plan , remplacement par un vec3(0,0,0)" << endl;
-				mat.ks[0] = 0;
-				mat.ks[1] = 0;
-				mat.ks[2] = 0;
+				mat.ks[0] = 0.0f;
+				mat.ks[1] = 0.0f;
+				mat.ks[2] = 0.0f;
 			}
 
 			//Récuperation données Shininess
@@ -706,8 +711,11 @@ public:
 			//ajout du cylindre à la liste des objets
 			ajoutObjet(p);
 
-			cout << "ajout d'un plan infini de rayon a la position " << p.GetPosition() << " de rotation " << p.GetRotation() << endl;
-
+			cout << "ajout d'un plan infini de rayon a la position " << p.GetPosition() << " de rotation " << p.GetRotation() <<
+				"avec le composante ka(" << mat.ka[0] * 255.0f << ", " << mat.ka[1] * 255.0f << ", " << mat.ka[2] * 255.0f << ")" <<
+				"avec le composante kd(" << mat.kd[0] * 255.0f << ", " << mat.kd[1] * 255.0f << ", " << mat.kd[2] * 255.0f << ")"
+				"avec le composante ks(" << mat.ks[0] * 255.0f << ", " << mat.ks[1] * 255.0f << ", " << mat.ks[2] * 255.0f << ")"
+				" et de shininess " << mat.shininess << endl;
 			break;
 		}
 
@@ -783,7 +791,7 @@ public:
 		}
 	}
 
-	//fonction pour définir la couleur du  pixel correspondant au Ray donné en paramètre
+	//fonction pour définir la couleur du pixel correspondant au Ray donné en paramètre
 	color RayTrace(Ray r)
 	{
 		float zMax = 100.f;
@@ -813,17 +821,21 @@ public:
 		{
 			//traiter l'illumination et les ombres
 			return SceneGetImpactColor(r, *listeObjets[indiceZMax], impactMax, this);
-
+			//return SceneGetImpactColorLambert(r, *listeObjets[indiceZMax], impactMax, this);
+			//Entite e = *listeObjets[indiceZMax];
+			//return e.GetMaterial().kd * 255.0f;
 		}
 		else return color(0.f, 0.f, 0.f);
 	}
 
 	color SceneGetImpactColor(Ray& ray, Entite& obj, outils::Point& impact, const Scene& scene)
 	{ 
-		Material m = Material(obj.GetMaterial().ka * (1.f / 255.f), obj.GetMaterial().kd * (1.f / 255.f), obj.GetMaterial().ks * (1.f / 255.f), obj.GetMaterial().shininess);
+		Material m = obj.GetMaterial();
 
 		Ray normal = obj.getNormal(impact, ray.origin);
-		color col = m.ka*(ambiant*(1.f/255.f));
+		normal.normalize();
+		color col = m.ka*(ambiant * (1.0f / 255.0f));
+		color bckup = col;
 
 		for (int l = 0; l < listeLumieres.size(); l++)
 		{
@@ -832,29 +844,116 @@ public:
 			color lspe = light->GetSpecular() * (1.f / 255.f);
 			
 			Vec3 vecteurLight = light->getVectorToLight(impact);
+			vecteurLight.normalize();
 
 			float a = vecteurLight.dot(normal.dir);
-			//cout << a << std::endl;
+
 			if (a > 0)
 			{
-				color colortmp = (ldif * (m.kd));
-
-				color colortmp2 = colortmp*a;
-				col = color(col[0] + colortmp2[0], col[1] + colortmp2[1], col[2] + colortmp2[2]);
-
+				color tmp = (ldif * (m.kd)) * a;
+				col[0] = col[0] + tmp[0];
+				col[1] = col[1] + tmp[1];
+				col[2] = col[2] + tmp[2];
 			}
 
-			Vec3 rm = (normal.dir * 2 * vecteurLight.dot(normal.dir)) - vecteurLight;
+			if (col == bckup)
+			{
+				Ray normalInv(normal);
+				normalInv.dir[0] = -normal.dir[0];
+				normalInv.dir[1] = -normal.dir[1];
+				normalInv.dir[2] = -normal.dir[2];
 
-			float beta = -rm.dot(ray.dir);
+				float aInv = vecteurLight.dot(normalInv.dir);
 
+				if (aInv > 0)
+				{
+					color tmp = (ldif * (m.kd)) * aInv;
+					col[0] = col[0] + tmp[0];
+					col[1] = col[1] + tmp[1];
+					col[2] = col[2] + tmp[2];
+				}
+			}
+
+			Vec3 rm = (2 * vecteurLight.dot(normal.dir)) * normal.dir - vecteurLight;
+			rm.normalize();
+
+			float beta = -(rm.dot(ray.dir));
+			
 			if (beta > 0)
 			{
-				col += (lspe * (m.ks)) * pow(beta, m.shininess);
+				color tmp = (m.ks) * pow(beta, m.shininess) * lspe;
+				col[0] = col[0] + tmp[0];
+				col[1] = col[1] + tmp[1];
+				col[2] = col[2] + tmp[2];
 			}
 		}
 
+		if (col[0] > 1.0f) col[0] = 1.0f;
+		if (col[1] > 1.0f) col[1] = 1.0f;
+		if (col[2] > 1.0f) col[2] = 1.0f;
+
 		return col * 255;
+	}
+
+	color SceneGetImpactColorLambert(const Ray& ray, Entite& obj, outils::Point& impact, const Scene& scene)
+	{
+		Material m = obj.GetMaterial();
+
+		Ray normal = obj.getNormal(impact, ray.origin);
+		color col = m.ka * (ambiant * (1.0f / 255.0f));
+		color bckup = col;
+
+		//pour chaque lumière de la scène
+		for (int l = 0; l < listeLumieres.size(); l++)
+		{
+			//récupérer le vecteur entre le point d'impact et la lumière
+			Light* light = listeLumieres[l];
+			Vec3 vecToLight = light->getVectorToLight(impact);
+			vecToLight = vecToLight.normalize();
+
+			if (vecToLight.dot(normal.dir) > 0.0f)
+			{
+				color tmp = m.kd * vecToLight.dot(normal.dir);
+				col[0] = col[0] + tmp[0];
+				col[1] = col[1] + tmp[1];
+				col[2] = col[2] + tmp[2];
+			}
+
+			//cout << "couleur " << col << " scal " << vecToLight.dot(normal.dir) << " impact " << impact.GetPosition() << " normale " << normal.dir << endl;
+		}
+
+		//si la couleur calculée est identique à la backup, il faut retester avec l'inverse de la normale
+		if (col == bckup)
+		{
+			normal.dir[0] = -normal.dir[0];
+			normal.dir[1] = -normal.dir[1];
+			normal.dir[2] = -normal.dir[2];
+
+			//pour chaque lumière de la scène
+			for (int l = 0; l < listeLumieres.size(); l++)
+			{
+				//récupérer le vecteur entre le point d'impact et la lumière
+				Light* light = listeLumieres[l];
+				Vec3 vecToLight = light->getVectorToLight(impact);
+				vecToLight = vecToLight.normalize();
+
+				if (vecToLight.dot(normal.dir) > 0.0f)
+				{
+					color tmp = m.kd * vecToLight.dot(normal.dir);
+					col[0] = col[0] + tmp[0];
+					col[1] = col[1] + tmp[1];
+					col[2] = col[2] + tmp[2];
+				}
+
+				//cout << "couleur " << col << " scal " << vecToLight.dot(normal.dir) << " impact " << impact.GetPosition() << " normale " << normal.dir << endl;
+			}
+		}
+
+		if (col[0] > 1.0f) col[0] = 1.0f;
+		if (col[1] > 1.0f) col[1] = 1.0f;
+		if (col[2] > 1.0f) col[2] = 1.0f;
+
+		return col * 255.0f;
 	}
 
 #pragma endregion

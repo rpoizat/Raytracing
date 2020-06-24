@@ -19,9 +19,9 @@ namespace outils {
 		}
 
 		Material(color composanteAmbiante, color composanteDiffuse, color composanteSpeculaire, float laShininess) {
-			ka = composanteAmbiante;
-			kd = composanteDiffuse;
-			ks = composanteSpeculaire;
+			ka = composanteAmbiante * (1.0f / 255.0f);
+			kd = composanteDiffuse * (1.0f / 255.0f);
+			ks = composanteSpeculaire * (1.0f / 255.0f);
 			shininess = laShininess;
 		}
 

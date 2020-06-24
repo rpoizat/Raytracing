@@ -117,12 +117,8 @@ class Entite
 		//fonction virtuelle permettant de récuperer la normale
 		virtual Ray getNormal(const outils::Point& p, const outils::Point& o) const
 		{
-
-				return Ray();
-
+			return Ray();
 		}
-
-
 
 #pragma region Fonctions de transformation
 
