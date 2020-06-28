@@ -66,6 +66,12 @@
     <ClInclude Include="Material.hpp">
       <Filter>Fichiers sources\Outils</Filter>
     </ClInclude>
+    <ClInclude Include="Carre.hpp">
+      <Filter>Fichiers sources\Composantes de scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.hpp">
+      <Filter>Fichiers sources\Composantes de scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -80,6 +86,9 @@
       <Filter>Fichiers sources</Filter>
     </Text>
     <Text Include="sceneTest.txt">
+      <Filter>Fichiers sources</Filter>
+    </Text>
+    <Text Include="sceneCube.txt">
       <Filter>Fichiers sources</Filter>
     </Text>
   </ItemGroup>
