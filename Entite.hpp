@@ -90,6 +90,12 @@ class Entite
 			return position;
 		}
 
+		//getteur sur la matrice de transformation
+		Mat GetTrans()
+		{
+			return trans;
+		}
+
 		//chaque entité dispose d'une rotation
 		Vec3 GetRotation()
 		{

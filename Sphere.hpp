@@ -30,7 +30,7 @@ class Sphere : public Entite
 
 			float a = pow(localR.dir[0], 2) + pow(localR.dir[1], 2) + pow(localR.dir[2], 2);
 			float b = 2 * (localR.origin[0] * localR.dir[0] + localR.origin[1] * localR.dir[1] + localR.origin[2] * localR.dir[2]);
-			float c = pow(localR.origin[0], 2) + pow(localR.origin[1], 2) + pow(localR.origin[2], 2) - rayon;
+			float c = pow(localR.origin[0], 2) + pow(localR.origin[1], 2) + pow(localR.origin[2], 2) - pow(rayon, 2);
 
 			float delta = pow(b, 2) - 4 * a*c;
 

@@ -28,7 +28,7 @@ class CylindreInf : public Entite
 
 			float a = pow(localR.dir[0], 2) + pow(localR.dir[2], 2);
 			float b = 2 * (localR.origin[0] * localR.dir[0] + localR.origin[2] * localR.dir[2]);
-			float c = pow(localR.origin[0], 2) + pow(localR.origin[2], 2) - rayon;
+			float c = pow(localR.origin[0], 2) + pow(localR.origin[2], 2) - pow(rayon, 2);
 
 			float delta = pow(b, 2) - 4 * a*c;
 
@@ -67,7 +67,11 @@ class CylindreInf : public Entite
 
 			if (scal <= 1.0f)
 			{
-				res = impactLoc.GetPosition() * -1.0f;
+				if (impactLoc.GetPosition()[1] < 0.0f)
+				{
+					res = impactLoc.GetPosition();
+				}
+				else res = impactLoc.GetPosition() * -1.0f;
 			}
 			else
 			{
@@ -76,9 +80,10 @@ class CylindreInf : public Entite
 
 			Ray resRay(impactLoc, res);
 			resRay.dir[1] = 0.0f;
-			resRay.normalize();
+			
 
 			resRay = LocalToGlobal(resRay);
+			resRay.normalize();
 
 			return resRay;
 		}

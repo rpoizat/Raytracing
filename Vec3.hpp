@@ -86,9 +86,9 @@ class Vec3
 		//addition entre vecteurs
 		inline Vec3 operator+=(const Vec3& v)
 		{
-			x + v.x;
-			y + v.y;
-			z + v.z;
+			x += v.x;
+			y += v.y;
+			z += v.z;
 
 			return *this;
 		}
@@ -96,9 +96,9 @@ class Vec3
 		//soustraction entre vecteurs
 		inline Vec3 operator-=(const Vec3& v)
 		{
-			x - v.x;
-			y - v.y; 
-			z - v.z;
+			x -= v.x;
+			y -= v.y; 
+			z -= v.z;
 
 			return *this;
 		}
@@ -119,6 +119,16 @@ class Vec3
 			x *= v.x;
 			y *= v.y;
 			z *= v.z;
+
+			return *this;
+		}
+
+		//division avec un Vec3
+		inline Vec3 operator/=(const Vec3& v)
+		{
+			x /= v.x;
+			y /= v.y;
+			z /= v.z;
 
 			return *this;
 		}
@@ -148,6 +158,17 @@ class Vec3
 	inline float dot(const Vec3& v) const 
 	{
 		return x * v.x + y * v.y + z * v.z;
+	}
+
+	//cross product
+	inline Vec3 Cross(const Vec3& v)
+	{
+		Vec3 res(0.0f, 0.0f, 0.0f);
+		res[0] = y * v[2] - z * v[1];
+		res[1] = z * v[0] - x * v[2];
+		res[2] = x * v[1] - y * v[0];
+
+		return res;
 	}
 
 	//fonction de normalisation
@@ -190,9 +211,16 @@ inline Vec3 operator-(Vec3 v1, const Vec3& v2)
 	return v1 -= v2;
 }
 
+//multiplication entre vec3 et float
 inline Vec3 operator*(const float& f, Vec3 v1)
 {
 	return v1 *= f;
+}
+
+//division entre vec3
+inline Vec3 operator/(Vec3 v1, const Vec3& v2)
+{
+	return v1 /= v2;
 }
 
 //operateur de flux
