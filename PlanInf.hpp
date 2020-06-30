@@ -42,6 +42,7 @@ class PlanInf : public Entite
 			int z;
 
 			outils::Point localObservator = GlobalToLocal(observator);
+			outils::Point localImpact = GlobalToLocal(impact);
 
 			if (localObservator[2] >= 0) {
 				z = 1;
@@ -53,9 +54,10 @@ class PlanInf : public Entite
 
 			Vec3 v(0, 0, z);
 
-			Ray r(GlobalToLocal(impact), v);
-
-			return LocalToGlobal(r);
+			Ray r(localImpact, v);
+			r = LocalToGlobal(r);
+			r.normalize();
+			return r;
 		}
 
 };

@@ -164,6 +164,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Carre.hpp" />
+    <ClInclude Include="ConeInf.hpp" />
     <ClInclude Include="Cube.hpp" />
     <ClInclude Include="CylindreInf.hpp" />
     <ClInclude Include="Entite.hpp" />

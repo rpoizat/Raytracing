@@ -304,7 +304,7 @@ class Entite
 
 			p4 = trans * p4;
 
-			outils::Point res(p4[0], p4[1], p4[2]);
+			outils::Point res(p4[0] / p4[3], p4[1] / p4[3], p4[2] / p4[3]);
 
 			return res;
 		}

@@ -72,6 +72,9 @@
     <ClInclude Include="Triangle.hpp">
       <Filter>Fichiers sources\Composantes de scene</Filter>
     </ClInclude>
+    <ClInclude Include="ConeInf.hpp">
+      <Filter>Fichiers sources\Composantes de scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
