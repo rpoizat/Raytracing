@@ -7,6 +7,8 @@
 #include "CylindreInf.hpp"
 #include "PlanInf.hpp"
 #include "Light.hpp"
+#include "Carre.hpp"
+#include "Triangle.hpp"
 #include "FonctionDiverses.hpp"
 
 
@@ -53,16 +55,18 @@ public:
 
 #pragma region fonctions ajout objets
 
-	//fonction pour ajouter un objet à la scène
-	/*void ajoutObjet(Sphere e)
-	{
-		Entite* newObj = new Sphere(e.GetPosition(), e.GetRotation(), e.GetColor(), e.GetRayon(), e.GetMaterial());
-		listeObjets.push_back(newObj);
-	}*/
-
-	void ajoutObjetMaterial(Sphere e)
+	//fonction pour ajouter une sphère à la scène
+	void ajoutObjet(Sphere e)
 	{
 		Entite* newObj = new Sphere(e.GetPosition(), e.GetRotation(), e.GetRayon(), e.GetMaterial());
+		listeObjets.push_back(newObj);
+	}
+
+	//fonction pour ajouter un triangle à la scène
+	void ajoutObjet(Triangle e)
+	{
+		Vec3 pos((e.s1[0] + e.s2[0] + e.s3[0]) / 3.0f, (e.s1[1] + e.s2[1] + e.s3[1]) / 3.0f, (e.s1[2] + e.s2[2] + e.s3[2]) / 3.0f);
+		Entite* newObj = new Triangle(e.s1, e.s2, e.s3, pos, Vec3(0.0f, 0.0f, 0.0f), e.GetMaterial());
 		listeObjets.push_back(newObj);
 	}
 
@@ -91,6 +95,13 @@ public:
 	void ajoutObjet(PlanInf e)
 	{
 		Entite* newObj = new PlanInf(e.GetPosition(), e.GetRotation(), e.GetMaterial());
+		listeObjets.push_back(newObj);
+	}
+
+	//fonction pour ajouter un carre à la scène
+	void ajoutObjet(Carre e)
+	{
+		Entite* newObj = new Carre(e.GetPosition(), e.GetRotation(), e.GetCote(), e.GetMaterial());
 		listeObjets.push_back(newObj);
 	}
 
@@ -125,72 +136,288 @@ public:
 	{
 		vector<string> donnees = explode(l, ':');
 
-
 		switch (str2int(donnees.at(0).c_str()))
 		{
-			//création d'une sphère en commentaire, j'ai laissé la version avec le material à la place
-			/*case str2int("sphere"):
+		//cas d'un carré
+		case str2int("carre"):
+		{
+			//récupération de la position
+			vector<string> donneesPosition = explode(donnees.at(1), '_');
+
+			Vec3 position;
+			//si on a bien toutes les données pour la position
+			if (donneesPosition.size() == 3)
 			{
-				//récupération de la position
-				vector<string> donneesPosition = explode(donnees.at(1), '_');
+				position[0] = -stof(donneesPosition.at(0));
+				position[1] = -stof(donneesPosition.at(1));
+				position[2] = stof(donneesPosition.at(2));
+			}
+			else
+			{
+				cout << "Donnees invalides sur la position de l'objet de type carre, l'objet sera en 0 1 -10 par defaut" << endl;
+				position[0] = 0.f;
+				position[1] = 1.f;
+				position[2] = -10.f;
+			}
 
-				Vec3 position;
-				//si on a bien toutes les données pour la position
-				if (donneesPosition.size() == 3)
-				{
-					position[0] = -stof(donneesPosition.at(0));
-					position[1] = -stof(donneesPosition.at(1));
-					position[2] = stof(donneesPosition.at(2));
-				}
-				else
-				{
-					cout << "Donnees invalides sur la position de l'objet de type Sphere, l'objet sera en 0 1 -10 par defaut" << endl;
-					position[0] = 0.f;
-					position[1] = 1.f;
-					position[2] = -10.f;
-				}
+			//récupération de la rotation
+			vector<string> donneesRotation = explode(donnees.at(2), '_');
 
-				//récupération de la rotation
-				vector<string> donneesRotation = explode(donnees.at(2), '_');
+			Vec3 rotation;
+			//si on a bien toutes les données pour la position
+			if (donneesRotation.size() == 3)
+			{
+				rotation[0] = stof(donneesRotation.at(0));
+				rotation[1] = stof(donneesRotation.at(1));
+				rotation[2] = stof(donneesRotation.at(2));
+			}
+			else
+			{
+				cout << "Donnees invalides sur la rotation de l'objet de type carre, la rotation sera en 0 0 0 par defaut" << endl;
+				rotation[0] = 0.f;
+				rotation[1] = 0.f;
+				rotation[2] = 0.f;
+			}
 
-				Vec3 rotation;
-				//si on a bien toutes les données pour la position
-				if (donneesRotation.size() == 3)
-				{
-					rotation[0] = stof(donneesRotation.at(0));
-					rotation[1] = stof(donneesRotation.at(1));
-					rotation[2] = stof(donneesRotation.at(2));
-				}
-				else
-				{
-					cout << "Donnees invalides sur la rotation de l'objet de type Sphere, la rotation sera en 0 0 0 par defaut" << endl;
-					rotation[0] = 0.f;
-					rotation[1] = 0.f;
-					rotation[2] = 0.f;
-				}
+			float cote;
 
-				float rayon;
+			//récupération de la cote, sinon initialisée à 1 par défaut
+			if (!donnees.at(3).empty())
+			{
+				cote = stof(donnees.at(3));
+			}
+			else cote = 1.f;
 
-				//récupération du rayon, sinon initialisé à 1 par défaut
-				if (!donnees.at(3).empty())
-				{
-					rayon = stof(donnees.at(3));
-				}
-				else rayon = 1.f;
+			Material mat;
+			//Récuperation données composante ambiante
+			vector<string> donneesAmbiante = explode(donnees.at(5), '_');
 
-				//création de la sphère
-				Sphere s(position, rotation, color(255.f, 0.f, 0.f), rayon);
+			if (donneesAmbiante.size() == 3)
+			{
+				mat.ka[0] = stof(donneesAmbiante.at(0)) * (1.0f / 255.0f);
+				mat.ka[1] = stof(donneesAmbiante.at(1)) * (1.0f / 255.0f);
+				mat.ka[2] = stof(donneesAmbiante.at(2)) * (1.0f / 255.0f);
+			}
+			else
+			{
+				cout << "Donnees invalides sur la composante ambiante du carre , remplacement par un vec3(0,0,0)" << endl;
+				mat.ka[0] = 0;
+				mat.ka[1] = 0;
+				mat.ka[2] = 0;
+			}
 
-				//ajout de la sphère à la liste des objets
-				ajoutObjet(s);
+			//Récuperation données composante diffuse
+			vector<string> donneesDiffuse = explode(donnees.at(6), '_');
 
-				cout << "ajout d'une sphere de rayon " << s.GetRayon() << " a la position " << s.GetPosition() << " de rotation " << s.GetRotation() << endl;
+			if (donneesDiffuse.size() == 3)
+			{
+				mat.kd[0] = stof(donneesDiffuse.at(0)) * (1.0f / 255.0f);
+				mat.kd[1] = stof(donneesDiffuse.at(1)) * (1.0f / 255.0f);
+				mat.kd[2] = stof(donneesDiffuse.at(2)) * (1.0f / 255.0f);
 
-				break;
-			}*/
+			}
+			else
+			{
+				cout << "Donnees invalides sur la composante diffuse du carre , remplacement par un vec3(0,0,0)" << endl;
+				mat.kd[0] = 0;
+				mat.kd[1] = 0;
+				mat.kd[2] = 0;
+			}
 
-			//Cas pour tester une ligne du fichier qui renseigne sur une sphère et son material
-		case str2int("sphereMat"):
+			//Récuperation données composante spéculaire
+			vector<string> donneesSpeculaire = explode(donnees.at(7), '_');
+
+			if (donneesSpeculaire.size() == 3)
+			{
+				mat.ks[0] = stof(donneesSpeculaire.at(0)) * (1.0f / 255.0f);
+				mat.ks[1] = stof(donneesSpeculaire.at(1)) * (1.0f / 255.0f);
+				mat.ks[2] = stof(donneesSpeculaire.at(2)) * (1.0f / 255.0f);
+
+			}
+			else
+			{
+				cout << "Donnees invalides sur la composante spéculaire du carre , remplacement par un vec3(0,0,0)" << endl;
+				mat.ks[0] = 0;
+				mat.ks[1] = 0;
+				mat.ks[2] = 0;
+			}
+
+			//Récuperation données Shininess
+			vector<string> donneeShininess = explode(donnees.at(8), '_');
+
+			if (donneeShininess.size() == 1)
+			{
+				mat.shininess = stof(donneeShininess.at(0));
+
+			}
+			else
+			{
+				cout << "Donnees invalides sur la composante shininess du carre , remplacement par un 0" << endl;
+
+				mat.shininess = 10.f;
+			}
+
+			//création du carre
+			Carre c(position, rotation, cote, mat);
+
+			//ajout de la sphère à la liste des objets
+			ajoutObjet(c);
+
+			cout << "ajout d'un carre de cote " << c.GetCote() << " a la position " << c.GetPosition() << " de rotation " << c.GetRotation() <<
+
+				"avec le composante ka(" << mat.ka[0] * 255.0f << ", " << mat.ka[1] * 255.0f << ", " << mat.ka[2] * 255.0f << ")" <<
+				"avec le composante kd(" << mat.kd[0] * 255.0f << ", " << mat.kd[1] * 255.0f << ", " << mat.kd[2] * 255.0f << ")"
+				"avec le composante ks(" << mat.ks[0] * 255.0f << ", " << mat.ks[1] * 255.0f << ", " << mat.ks[2] * 255.0f << ")"
+				" et de shininess " << mat.shininess << endl;
+
+			break;
+		}
+
+		//cas d'un triangle
+		case str2int("triangle"):
+		{
+			//récupération de la position du premier sommet
+			vector<string> donneesPositionS1 = explode(donnees.at(1), '_');
+
+			Vec3 positionS1;
+			//si on a bien toutes les données pour la position
+			if (donneesPositionS1.size() == 3)
+			{
+				positionS1[0] = stof(donneesPositionS1.at(0));
+				positionS1[1] = stof(donneesPositionS1.at(1));
+				positionS1[2] = -stof(donneesPositionS1.at(2));
+			}
+			else
+			{
+				cout << "Donnees invalides sur la position de l'objet de type triangle, l'objet sera en 0 1 -10 par defaut" << endl;
+				positionS1[0] = -1.f;
+				positionS1[1] = 0.f;
+				positionS1[2] = -10.f;
+			}
+
+			//récupération de la position du deuxième sommet
+			vector<string> donneesPositionS2 = explode(donnees.at(2), '_');
+
+			Vec3 positionS2;
+			//si on a bien toutes les données pour la position
+			if (donneesPositionS2.size() == 3)
+			{
+				positionS2[0] = stof(donneesPositionS2.at(0));
+				positionS2[1] = stof(donneesPositionS2.at(1));
+				positionS2[2] = -stof(donneesPositionS2.at(2));
+			}
+			else
+			{
+				cout << "Donnees invalides sur la position de l'objet de type triangle, l'objet sera en 0 1 -10 par defaut" << endl;
+				positionS2[0] = 1.f;
+				positionS2[1] = 0.f;
+				positionS2[2] = -10.f;
+			}
+
+			//récupération de la position du troisième sommet
+			vector<string> donneesPositionS3 = explode(donnees.at(3), '_');
+
+			Vec3 positionS3;
+			//si on a bien toutes les données pour la position
+			if (donneesPositionS3.size() == 3)
+			{
+				positionS3[0] = stof(donneesPositionS3.at(0));
+				positionS3[1] = stof(donneesPositionS3.at(1));
+				positionS3[2] = -stof(donneesPositionS3.at(2));
+			}
+			else
+			{
+				cout << "Donnees invalides sur la position de l'objet de type triangle, l'objet sera en 0 1 -10 par defaut" << endl;
+				positionS3[0] = 1.f;
+				positionS3[1] = 0.f;
+				positionS3[2] = -10.f;
+			}
+
+			Material mat;
+			//Récuperation données composante ambiante
+			vector<string> donneesAmbiante = explode(donnees.at(5), '_');
+
+			if (donneesAmbiante.size() == 3)
+			{
+				mat.ka[0] = stof(donneesAmbiante.at(0)) * (1.0f / 255.0f);
+				mat.ka[1] = stof(donneesAmbiante.at(1)) * (1.0f / 255.0f);
+				mat.ka[2] = stof(donneesAmbiante.at(2)) * (1.0f / 255.0f);
+			}
+			else
+			{
+				cout << "Donnees invalides sur la composante ambiante du carre , remplacement par un vec3(0,0,0)" << endl;
+				mat.ka[0] = 0;
+				mat.ka[1] = 0;
+				mat.ka[2] = 0;
+			}
+
+			//Récuperation données composante diffuse
+			vector<string> donneesDiffuse = explode(donnees.at(6), '_');
+
+			if (donneesDiffuse.size() == 3)
+			{
+				mat.kd[0] = stof(donneesDiffuse.at(0)) * (1.0f / 255.0f);
+				mat.kd[1] = stof(donneesDiffuse.at(1)) * (1.0f / 255.0f);
+				mat.kd[2] = stof(donneesDiffuse.at(2)) * (1.0f / 255.0f);
+
+			}
+			else
+			{
+				cout << "Donnees invalides sur la composante diffuse du carre , remplacement par un vec3(0,0,0)" << endl;
+				mat.kd[0] = 0;
+				mat.kd[1] = 0;
+				mat.kd[2] = 0;
+			}
+
+			//Récuperation données composante spéculaire
+			vector<string> donneesSpeculaire = explode(donnees.at(7), '_');
+
+			if (donneesSpeculaire.size() == 3)
+			{
+				mat.ks[0] = stof(donneesSpeculaire.at(0)) * (1.0f / 255.0f);
+				mat.ks[1] = stof(donneesSpeculaire.at(1)) * (1.0f / 255.0f);
+				mat.ks[2] = stof(donneesSpeculaire.at(2)) * (1.0f / 255.0f);
+
+			}
+			else
+			{
+				cout << "Donnees invalides sur la composante spéculaire du carre , remplacement par un vec3(0,0,0)" << endl;
+				mat.ks[0] = 0;
+				mat.ks[1] = 0;
+				mat.ks[2] = 0;
+			}
+
+			//Récuperation données Shininess
+			vector<string> donneeShininess = explode(donnees.at(8), '_');
+
+			if (donneeShininess.size() == 1)
+			{
+				mat.shininess = stof(donneeShininess.at(0));
+
+			}
+			else
+			{
+				cout << "Donnees invalides sur la composante shininess du carre , remplacement par un 0" << endl;
+
+				mat.shininess = 10.f;
+			}
+
+			//ajout de l'objet à la liste
+			Triangle t(positionS1, positionS2, positionS3, Vec3(0.0f, 0.0f, 0.0f), Vec3(0.0f, 0.0f, 0.0f), mat);
+			ajoutObjet(t);
+
+			cout << "ajout d'un triangle de sommet s1 " << t.s1 << " s2 " << t.s2 << " s3 " << t.s3 << 
+
+				" avec le composante ka(" << mat.ka[0] * 255.0f << ", " << mat.ka[1] * 255.0f << ", " << mat.ka[2] * 255.0f << ")" <<
+				" avec le composante kd(" << mat.kd[0] * 255.0f << ", " << mat.kd[1] * 255.0f << ", " << mat.kd[2] * 255.0f << ")"
+				" avec le composante ks(" << mat.ks[0] * 255.0f << ", " << mat.ks[1] * 255.0f << ", " << mat.ks[2] * 255.0f << ")"
+				" et de shininess " << mat.shininess << endl;
+
+			break;
+		}
+
+		//Cas pour tester une ligne du fichier qui renseigne sur une sphère et son material
+		case str2int("sphere"):
 		{
 			//récupération de la position
 			vector<string> donneesPosition = explode(donnees.at(1), '_');
@@ -313,7 +540,7 @@ public:
 			Sphere s(position, rotation, rayon, mat);
 
 			//ajout de la sphère à la liste des objets
-			ajoutObjetMaterial(s);
+			ajoutObjet(s);
 
 			cout << "ajout d'une sphere de rayon " << s.GetRayon() << " a la position " << s.GetPosition() << " de rotation " << s.GetRotation() <<
 
@@ -599,7 +826,7 @@ public:
 
 			Material mat;
 			//Récuperation données composante ambiante
-			vector<string> donneesAmbiante = explode(donnees.at(6), '_');
+			vector<string> donneesAmbiante = explode(donnees.at(4), '_');
 
 			if (donneesAmbiante.size() == 3)
 			{
@@ -617,7 +844,7 @@ public:
 			}
 
 			//Récuperation données composante diffuse
-			vector<string> donneesDiffuse = explode(donnees.at(7), '_');
+			vector<string> donneesDiffuse = explode(donnees.at(5), '_');
 
 			if (donneesDiffuse.size() == 3)
 			{
@@ -635,7 +862,7 @@ public:
 			}
 
 			//Récuperation données composante spéculaire
-			vector<string> donneesSpeculaire = explode(donnees.at(8), '_');
+			vector<string> donneesSpeculaire = explode(donnees.at(6), '_');
 
 			if (donneesSpeculaire.size() == 3)
 			{
@@ -653,7 +880,7 @@ public:
 			}
 
 			//Récuperation données Shininess
-			vector<string> donneeShininess = explode(donnees.at(9), '_');
+			vector<string> donneeShininess = explode(donnees.at(7), '_');
 
 			if (donneeShininess.size() == 1)
 			{
@@ -716,6 +943,7 @@ public:
 				"avec le composante kd(" << mat.kd[0] * 255.0f << ", " << mat.kd[1] * 255.0f << ", " << mat.kd[2] * 255.0f << ")"
 				"avec le composante ks(" << mat.ks[0] * 255.0f << ", " << mat.ks[1] * 255.0f << ", " << mat.ks[2] * 255.0f << ")"
 				" et de shininess " << mat.shininess << endl;
+			cout << "matrice de transformation : " << endl << p.GetTrans() << endl;
 			break;
 		}
 
@@ -820,15 +1048,47 @@ public:
 		if (indiceZMax >= 0)
 		{
 			//traiter l'illumination et les ombres
-			return SceneGetImpactColor(r, *listeObjets[indiceZMax], impactMax, this);
-			//return SceneGetImpactColorLambert(r, *listeObjets[indiceZMax], impactMax, this);
+			return SceneGetImpactColor(r, *listeObjets[indiceZMax], impactMax, indiceZMax);
+			//return SceneGetImpactColorLambert(r, *listeObjets[indiceZMax], impactMax, indiceZMax);
 			//Entite e = *listeObjets[indiceZMax];
 			//return e.GetMaterial().kd * 255.0f;
 		}
 		else return color(0.f, 0.f, 0.f);
 	}
 
-	color SceneGetImpactColor(Ray& ray, Entite& obj, outils::Point& impact, const Scene& scene)
+	//fonction pour déterminer si un rayon vers une lumière intersectionne un objet
+	bool IsShaded(outils::Point& impact, const int& indiceZMax, Vec3& vecToLight, Vec3 lightPosition)
+	{
+		Vec3 vecLightToPoint;
+		vecLightToPoint[0] = -vecToLight[0];
+		vecLightToPoint[1] = -vecToLight[1];
+		vecLightToPoint[2] = -vecToLight[2];
+		vecLightToPoint.normalize();
+
+		Ray rayToLight(lightPosition, vecLightToPoint);
+		outils::Point impactOmbre(0.0f, 0.0f, 0.0f);
+
+		for (int i = 0; i < listeObjets.size(); i++)
+		{
+			//ne pas traiter l'objet intercepté par le rayon initial
+			if (i != indiceZMax)
+			{
+				//si le rayon partant du point d'impact vers la lumière intercepte un objet, return true, ce point est caché de cette lumière
+				if (listeObjets[i]->Intersection(rayToLight, impactOmbre))
+				{
+					if (impactOmbre[2] < impact[2])
+					{
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	//éclairage de Phong
+	color SceneGetImpactColor(Ray& ray, Entite& obj, outils::Point& impact, const int indiceObj)
 	{ 
 		Material m = obj.GetMaterial();
 
@@ -846,56 +1106,112 @@ public:
 			Vec3 vecteurLight = light->getVectorToLight(impact);
 			vecteurLight.normalize();
 
-			float a = vecteurLight.dot(normal.dir);
-
-			if (a > 0)
+			if (ombre)
 			{
-				color tmp = (ldif * (m.kd)) * a;
-				col[0] = col[0] + tmp[0];
-				col[1] = col[1] + tmp[1];
-				col[2] = col[2] + tmp[2];
-			}
-
-			if (col == bckup)
-			{
-				Ray normalInv(normal);
-				normalInv.dir[0] = -normal.dir[0];
-				normalInv.dir[1] = -normal.dir[1];
-				normalInv.dir[2] = -normal.dir[2];
-
-				float aInv = vecteurLight.dot(normalInv.dir);
-
-				if (aInv > 0)
+				//vérification si le point n'est caché de la lumière courante
+				if (!IsShaded(impact, indiceObj, vecteurLight, listeLumieres[l]->GetPosition()))
 				{
-					color tmp = (ldif * (m.kd)) * aInv;
+					float a = vecteurLight.dot(normal.dir);
+
+					if (a > 0)
+					{
+						color tmp = (ldif * (m.kd)) * a;
+						col[0] = col[0] + tmp[0];
+						col[1] = col[1] + tmp[1];
+						col[2] = col[2] + tmp[2];
+					}
+
+					CylindreInf* test = dynamic_cast<CylindreInf*>(&obj);
+					if (test != NULL)
+					{
+						if (col == bckup)
+						{
+							Ray normalInv(normal);
+							normalInv.dir[0] = -normal.dir[0];
+							normalInv.dir[1] = -normal.dir[1];
+							normalInv.dir[2] = -normal.dir[2];
+								
+							float aInv = vecteurLight.dot(normalInv.dir);
+
+							if (aInv > 0)
+							{
+								color tmp = (ldif * (m.kd)) * aInv;
+								col[0] = col[0] + tmp[0];
+								col[1] = col[1] + tmp[1];
+								col[2] = col[2] + tmp[2];
+							}
+						}
+					}
+					
+
+					Vec3 rm = (2 * vecteurLight.dot(normal.dir)) * normal.dir - vecteurLight;
+					rm.normalize();
+
+					float beta = -(rm.dot(ray.dir));
+
+					if (beta > 0)
+					{
+						color tmp = (m.ks) * pow(beta, m.shininess) * lspe;
+						col[0] = col[0] + tmp[0];
+						col[1] = col[1] + tmp[1];
+						col[2] = col[2] + tmp[2];
+					}
+				}
+			}
+			else
+			{
+				float a = vecteurLight.dot(normal.dir);
+
+				if (a > 0)
+				{
+					color tmp = (ldif * (m.kd)) * a;
+					col[0] = col[0] + tmp[0];
+					col[1] = col[1] + tmp[1];
+					col[2] = col[2] + tmp[2];
+				}
+
+				if (col == bckup)
+				{
+					Ray normalInv(normal);
+					normalInv.dir[0] = -normal.dir[0];
+					normalInv.dir[1] = -normal.dir[1];
+					normalInv.dir[2] = -normal.dir[2];
+
+					float aInv = vecteurLight.dot(normalInv.dir);
+
+					if (aInv > 0)
+					{
+						color tmp = (ldif * (m.kd)) * aInv;
+						col[0] = col[0] + tmp[0];
+						col[1] = col[1] + tmp[1];
+						col[2] = col[2] + tmp[2];
+					}
+				}
+
+				Vec3 rm = (2 * vecteurLight.dot(normal.dir)) * normal.dir - vecteurLight;
+				rm.normalize();
+
+				float beta = -(rm.dot(ray.dir));
+
+				if (beta > 0)
+				{
+					color tmp = (m.ks) * pow(beta, m.shininess) * lspe;
 					col[0] = col[0] + tmp[0];
 					col[1] = col[1] + tmp[1];
 					col[2] = col[2] + tmp[2];
 				}
 			}
 
-			Vec3 rm = (2 * vecteurLight.dot(normal.dir)) * normal.dir - vecteurLight;
-			rm.normalize();
+			if (col[0] > 1.0f) col[0] = 1.0f;
+			if (col[1] > 1.0f) col[1] = 1.0f;
+			if (col[2] > 1.0f) col[2] = 1.0f;
 
-			float beta = -(rm.dot(ray.dir));
-			
-			if (beta > 0)
-			{
-				color tmp = (m.ks) * pow(beta, m.shininess) * lspe;
-				col[0] = col[0] + tmp[0];
-				col[1] = col[1] + tmp[1];
-				col[2] = col[2] + tmp[2];
-			}
-		}
-
-		if (col[0] > 1.0f) col[0] = 1.0f;
-		if (col[1] > 1.0f) col[1] = 1.0f;
-		if (col[2] > 1.0f) col[2] = 1.0f;
-
-		return col * 255;
+			return col * 255;
+		}	
 	}
 
-	color SceneGetImpactColorLambert(const Ray& ray, Entite& obj, outils::Point& impact, const Scene& scene)
+	//éclairage de Lambert
+	color SceneGetImpactColorLambert(const Ray& ray, Entite& obj, outils::Point& impact, const int indiceObj)
 	{
 		Material m = obj.GetMaterial();
 
@@ -919,7 +1235,7 @@ public:
 				col[2] = col[2] + tmp[2];
 			}
 
-			//cout << "couleur " << col << " scal " << vecToLight.dot(normal.dir) << " impact " << impact.GetPosition() << " normale " << normal.dir << endl;
+			cout << "couleur " << col << " scal " << vecToLight.dot(normal.dir) << " impact " << impact.GetPosition() << " normale " << normal.dir << endl;
 		}
 
 		//si la couleur calculée est identique à la backup, il faut retester avec l'inverse de la normale
@@ -945,7 +1261,7 @@ public:
 					col[2] = col[2] + tmp[2];
 				}
 
-				//cout << "couleur " << col << " scal " << vecToLight.dot(normal.dir) << " impact " << impact.GetPosition() << " normale " << normal.dir << endl;
+				cout << "couleur - normale inverse " << col << " scal " << vecToLight.dot(normal.dir) << " impact " << impact.GetPosition() << " normale " << normal.dir << endl;
 			}
 		}
 

@@ -159,7 +159,7 @@ int main()
 	{
 		for (int i = 0; i < largeur; i++)
 		{
-			//if (j == hauteur / 2)
+			//if (j == hauteur / 2 && i == (largeur / 2) - 10)
 			{
 				// calcul des coordonnees monde des pixels
 				float x = aspectRatio * 2.f * (float(i - largeur / 2) + 0.5f) / largeur;
