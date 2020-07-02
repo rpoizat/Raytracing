@@ -9,6 +9,7 @@
 #include "Light.hpp"
 #include "Carre.hpp"
 #include "Triangle.hpp"
+#include "ConeInf.hpp"
 #include "FonctionDiverses.hpp"
 
 
@@ -62,6 +63,13 @@ public:
 		listeObjets.push_back(newObj);
 	}
 
+	//fonction pour ajouter un cone infini a la scene
+	void ajoutObjet(ConeInf e)
+	{
+		Entite* newObj = new ConeInf(e.GetPosition(), e.GetRotation(), (e.GetAngle() * 180) / 3.1415f, e.GetMaterial());
+		listeObjets.push_back(newObj);
+	}
+
 	//fonction pour ajouter un triangle � la sc�ne
 	void ajoutObjet(Triangle e)
 	{
@@ -107,7 +115,7 @@ public:
 
 #pragma endregion
 
-#pragma region Traitement de la sc�ne
+#pragma region Traitement de la scene
 
 	//fonction de lecture du fichier de la scene donn� en param�tre
 	void LectureConfiguration(string cheminFichier)
@@ -548,6 +556,7 @@ public:
 				"avec le composante kd(" << mat.kd[0] * 255.0f << ", " << mat.kd[1] * 255.0f << ", " << mat.kd[2] * 255.0f << ")"
 				"avec le composante ks(" << mat.ks[0] * 255.0f << ", " << mat.ks[1] * 255.0f << ", " << mat.ks[2] * 255.0f << ")"
 				" et de shininess " << mat.shininess << endl;
+			cout << s.GetTrans() << endl;
 
 			break;
 		}
@@ -947,6 +956,137 @@ public:
 			break;
 		}
 
+		//création d'un cone infini
+		case str2int("cone"):
+		{
+			//r�cup�ration de la position
+			vector<string> donneesPosition = explode(donnees.at(1), '_');
+
+			Vec3 position;
+			//si on a bien toutes les donn�es pour la position
+			if (donneesPosition.size() == 3)
+			{
+				position[0] = -stof(donneesPosition.at(0));
+				position[1] = -stof(donneesPosition.at(1));
+				position[2] = stof(donneesPosition.at(2));
+			}
+			else
+			{
+				cout << "Donnees invalides sur la position de l'objet de type cone, l'objet sera en 0 1 -10 par defaut" << endl;
+				position[0] = 0.f;
+				position[1] = 1.f;
+				position[2] = -10.f;
+			}
+
+			//r�cup�ration de la rotation
+			vector<string> donneesRotation = explode(donnees.at(2), '_');
+
+			Vec3 rotation;
+			//si on a bien toutes les donn�es pour la position
+			if (donneesRotation.size() == 3)
+			{
+				rotation[0] = stof(donneesRotation.at(0));
+				rotation[1] = stof(donneesRotation.at(1));
+				rotation[2] = stof(donneesRotation.at(2));
+			}
+			else
+			{
+				cout << "Donnees invalides sur la rotation de l'objet de type cone, la rotation sera en 0 0 0 par defaut" << endl;
+				rotation[0] = 0.f;
+				rotation[1] = 0.f;
+				rotation[2] = 0.f;
+			}
+
+			float angle;
+
+			//r�cup�ration de l'angle, sinon initialis� � 40 par d�faut
+			if (!donnees.at(3).empty())
+			{
+				angle = stof(donnees.at(3));
+			}
+			else angle = 40.f;
+
+			Material mat;
+			//R�cuperation donn�es composante ambiante
+			vector<string> donneesAmbiante = explode(donnees.at(5), '_');
+
+			if (donneesAmbiante.size() == 3)
+			{
+				mat.ka[0] = stof(donneesAmbiante.at(0)) * (1.0f / 255.0f);
+				mat.ka[1] = stof(donneesAmbiante.at(1)) * (1.0f / 255.0f);
+				mat.ka[2] = stof(donneesAmbiante.at(2)) * (1.0f / 255.0f);
+			}
+			else
+			{
+				cout << "Donnees invalides sur la composante ambiante du cone , remplacement par un vec3(0,0,0)" << endl;
+				mat.ka[0] = 0.0f;
+				mat.ka[1] = 0.0f;
+				mat.ka[2] = 0.0f;
+			}
+
+			//R�cuperation donn�es composante diffuse
+			vector<string> donneesDiffuse = explode(donnees.at(6), '_');
+
+			if (donneesDiffuse.size() == 3)
+			{
+				mat.kd[0] = stof(donneesDiffuse.at(0)) * (1.0f / 255.0f);
+				mat.kd[1] = stof(donneesDiffuse.at(1)) * (1.0f / 255.0f);
+				mat.kd[2] = stof(donneesDiffuse.at(2)) * (1.0f / 255.0f);
+			}
+			else
+			{
+				cout << "Donnees invalides sur la composante diffuse du cone , remplacement par un vec3(0,0,0)" << endl;
+				mat.kd[0] = 0.0f;
+				mat.kd[1] = 0.0f;
+				mat.kd[2] = 0.0f;
+			}
+
+			//R�cuperation donn�es composante sp�culaire
+			vector<string> donneesSpeculaire = explode(donnees.at(7), '_');
+
+			if (donneesSpeculaire.size() == 3)
+			{
+				mat.ks[0] = stof(donneesSpeculaire.at(0)) * (1.0f / 255.0f);
+				mat.ks[1] = stof(donneesSpeculaire.at(1)) * (1.0f / 255.0f);
+				mat.ks[2] = stof(donneesSpeculaire.at(2)) * (1.0f / 255.0f);
+			}
+			else
+			{
+				cout << "Donnees invalides sur la composante sp�culaire du cone , remplacement par un vec3(0,0,0)" << endl;
+				mat.ks[0] = 0.0f;
+				mat.ks[1] = 0.0f;
+				mat.ks[2] = 0.0f;
+			}
+
+			//R�cuperation donn�es Shininess
+			vector<string> donneeShininess = explode(donnees.at(8), '_');
+
+			if (donneeShininess.size() == 1)
+			{
+				mat.shininess = stof(donneeShininess.at(0));
+			}
+			else
+			{
+				cout << "Donnees invalides sur la composante shininess du cone , remplacement par un 0" << endl;
+
+				mat.shininess = 0.f;
+			}
+
+			ConeInf c(position, rotation, angle, mat);
+
+			//ajout du cone � la liste des objets
+			ajoutObjet(c);
+
+			cout << "ajout d'un cone d'angle " << angle << " a la position " << c.GetPosition() << " de rotation " << c.GetRotation() <<
+				"avec le composante ka(" << mat.ka[0] * 255.0f << ", " << mat.ka[1] * 255.0f << ", " << mat.ka[2] * 255.0f << ")" <<
+				"avec le composante kd(" << mat.kd[0] * 255.0f << ", " << mat.kd[1] * 255.0f << ", " << mat.kd[2] * 255.0f << ")"
+				"avec le composante ks(" << mat.ks[0] * 255.0f << ", " << mat.ks[1] * 255.0f << ", " << mat.ks[2] * 255.0f << ")"
+				" et de shininess " << mat.shininess << endl;
+			cout << c.GetTrans() << endl;
+
+			break;
+		}
+
 		//cr�ation d'une lumi�re
 		case str2int("light"):
 		{
@@ -1048,10 +1188,10 @@ public:
 		if (indiceZMax >= 0)
 		{
 			//traiter l'illumination et les ombres
-			//return SceneGetImpactColor(r, *listeObjets[indiceZMax], impactMax, indiceZMax);
+			return SceneGetImpactColor(r, *listeObjets[indiceZMax], impactMax, indiceZMax);
 			//return SceneGetImpactColorLambert(r, *listeObjets[indiceZMax], impactMax, indiceZMax);
-			Entite e = *listeObjets[indiceZMax];
-			return e.GetMaterial().kd * 255.0f;
+			//Entite e = *listeObjets[indiceZMax];
+			//return e.GetMaterial().kd * 255.0f;
 		}
 		else return color(0.f, 0.f, 0.f);
 	}

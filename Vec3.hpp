@@ -150,6 +150,16 @@ class Vec3
 			}
 			else return false;
 		}
+
+		//division avec un float
+		inline Vec3 operator/=(const float& f)
+		{
+			x /= f;
+			y /= f;
+			z /= f;
+
+			return *this;
+		}
 #pragma endregion
 
 #pragma region Fonctions
@@ -221,6 +231,12 @@ inline Vec3 operator*(const float& f, Vec3 v1)
 inline Vec3 operator/(Vec3 v1, const Vec3& v2)
 {
 	return v1 /= v2;
+}
+
+//division par un float
+inline Vec3 operator/(Vec3 v1, const float& f)
+{
+	return v1 /= f;
 }
 
 //operateur de flux
