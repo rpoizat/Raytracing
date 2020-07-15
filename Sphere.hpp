@@ -79,6 +79,5 @@ class Sphere : public Entite
 			resRay = LocalToGlobal(resRay);
 			resRay.normalize();
 			return resRay;
-
 		}
 };

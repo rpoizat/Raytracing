@@ -22,7 +22,7 @@ class Scene
 private:
 	vector<Entite*> listeObjets;
 	vector<Light*> listeLumieres;
-	color ambiant = color(0.0f, 0.0f, 0.0f);
+	color ambiant = color(125.0f, 125.0f, 125.0f);
 
 	//option d'activer/d�sactiver les ombres
 	bool ombre;
@@ -1189,15 +1189,12 @@ public:
 		{
 			//traiter l'illumination et les ombres
 			return SceneGetImpactColor(r, *listeObjets[indiceZMax], impactMax, indiceZMax);
-			//return SceneGetImpactColorLambert(r, *listeObjets[indiceZMax], impactMax, indiceZMax);
-			//Entite e = *listeObjets[indiceZMax];
-			//return e.GetMaterial().kd * 255.0f;
 		}
-		else return color(0.f, 0.f, 0.f);
+		else return ambiant;
 	}
 
 	//fonction pour d�terminer si un rayon vers une lumi�re intersectionne un objet
-	bool IsShaded(outils::Point& impact, const int& indiceZMax, Vec3& vecToLight, Vec3 lightPosition)
+	bool IsShaded(outils::Point& impact, const int& indiceZMax, Vec3& vecToLight, Vec3 lightPosition, float& ratioExpo)
 	{
 		Vec3 vecLightToPoint;
 		vecLightToPoint[0] = -vecToLight[0];
@@ -1208,23 +1205,107 @@ public:
 		Ray rayToLight(lightPosition, vecLightToPoint);
 		outils::Point impactOmbre(0.0f, 0.0f, 0.0f);
 
+		//générer les rayons décalés pour traiter les soft shadows
+		Ray shadowRays[3][3];
+
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				Vec3 origin = lightPosition;
+
+				float derivX;
+				float derivY;
+				float derivZ;
+
+				if (i == 1) derivY = 0.0f;
+				else
+				{
+					if (i == 0)
+					{
+						float r = -0.05f + static_cast<float> (rand()) / (static_cast <float>(RAND_MAX / (0.05f - (-0.05))));
+						derivY = -0.05f + r;
+					}
+					else
+					{
+						float r = -0.05f + static_cast<float> (rand()) / (static_cast <float>(RAND_MAX / (0.05f - (-0.05))));
+						derivY = +0.05f + r;
+					}
+				}
+
+				if (j == 1) derivX = 0.0f;
+				else
+				{
+					if (j == 0)
+					{
+						float r = -0.01f + static_cast<float> (rand()) / (static_cast <float>(RAND_MAX / (0.01f - -(0.01))));
+						derivX = -0.05f + r;
+					}
+					else
+					{
+						float r = -0.01f + static_cast<float> (rand()) / (static_cast <float>(RAND_MAX / (0.01f - -(0.01))));
+						derivX = +0.05f + r;
+					}
+				}
+
+				float r = -0.01f + static_cast<float> (rand()) / (static_cast <float>(RAND_MAX / (0.01f - -(0.01))));
+				derivZ = 0.05f + r;
+
+				Vec3 deriv(derivX, derivY, derivZ);
+
+				shadowRays[i][j] = Ray(origin + deriv, vecLightToPoint);
+			}
+		}
+
+		bool inter = false;
+
+		//traitement des ShadowRays
 		for (int i = 0; i < listeObjets.size(); i++)
 		{
 			//ne pas traiter l'objet intercept� par le rayon initial
 			if (i != indiceZMax)
 			{
-				//si le rayon partant du point d'impact vers la lumi�re intercepte un objet, return true, ce point est cach� de cette lumi�re
+				//si on a une intersection
 				if (listeObjets[i]->Intersection(rayToLight, impactOmbre))
 				{
-					if (impactOmbre[2] < impact[2])
-					{
-						return true;
-					}
+					if(impactOmbre[2] < impact[2]) inter = true;
 				}
 			}
 		}
 
-		return false;
+		//le point est ombragé, on nuance le shadowRay pour voir s'il est au bord de l'ombre ou pas
+		if (inter)
+		{
+			float cptInter = 9.0f;
+			outils::Point impactShadRay(0.0f, 0.0f, 0.0f);
+
+			//pour chaque ShadowRay, on regarde s'il est intercepté par un objet
+			for (int i = 0; i < 3; i++)
+			{
+				for (int j = 0; j < 3; j++)
+				{
+					for (int l = 0; l < listeObjets.size(); l++)
+					{
+						if (l != indiceZMax)
+						{
+							if (listeObjets[l]->Intersection(shadowRays[i][j], impactShadRay))
+							{
+								cptInter -= 1.0f;
+								break;
+							}
+						}
+					}
+				}
+			}
+			
+			ratioExpo = cptInter / 9.0f;
+			return true;
+		}
+		else
+		{
+			ratioExpo = 1.0f;
+			return false;
+		}
 	}
 
 	//�clairage de Phong
@@ -1246,19 +1327,18 @@ public:
 			Vec3 vecteurLight = light->getVectorToLight(impact);
 			vecteurLight.normalize();
 
+			float ratio = 500.0f;
 			if (ombre)
 			{
 				//v�rification si le point n'est cach� de la lumi�re courante
-				if (!IsShaded(impact, indiceObj, vecteurLight, listeLumieres[l]->GetPosition()))
+				if (!IsShaded(impact, indiceObj, vecteurLight, listeLumieres[l]->GetPosition(), ratio))
 				{
 					float a = vecteurLight.dot(normal.dir);
 
 					if (a > 0)
 					{
 						color tmp = (ldif * (m.kd)) * a;
-						col[0] = col[0] + tmp[0];
-						col[1] = col[1] + tmp[1];
-						col[2] = col[2] + tmp[2];
+						col += tmp;
 					}
 
 					CylindreInf* test = dynamic_cast<CylindreInf*>(&obj);
@@ -1276,14 +1356,11 @@ public:
 							if (aInv > 0)
 							{
 								color tmp = (ldif * (m.kd)) * aInv;
-								col[0] = col[0] + tmp[0];
-								col[1] = col[1] + tmp[1];
-								col[2] = col[2] + tmp[2];
+								col += tmp;
 							}
 						}
 					}
 					
-
 					Vec3 rm = (2 * vecteurLight.dot(normal.dir)) * normal.dir - vecteurLight;
 					rm.normalize();
 
@@ -1292,9 +1369,17 @@ public:
 					if (beta > 0)
 					{
 						color tmp = (m.ks) * pow(beta, m.shininess) * lspe;
-						col[0] = col[0] + tmp[0];
-						col[1] = col[1] + tmp[1];
-						col[2] = col[2] + tmp[2];
+						col += tmp;
+					}
+				}
+				else
+				{
+					float a = vecteurLight.dot(normal.dir);
+
+					if (a > 0)
+					{
+						color tmp = (ldif * (m.kd)) * a;
+						col += tmp * ratio;
 					}
 				}
 			}
@@ -1305,26 +1390,26 @@ public:
 				if (a > 0)
 				{
 					color tmp = (ldif * (m.kd)) * a;
-					col[0] = col[0] + tmp[0];
-					col[1] = col[1] + tmp[1];
-					col[2] = col[2] + tmp[2];
+					col += tmp;
 				}
 
-				if (col == bckup)
+				CylindreInf* test = dynamic_cast<CylindreInf*>(&obj);
+				if (test != NULL)
 				{
-					Ray normalInv(normal);
-					normalInv.dir[0] = -normal.dir[0];
-					normalInv.dir[1] = -normal.dir[1];
-					normalInv.dir[2] = -normal.dir[2];
-
-					float aInv = vecteurLight.dot(normalInv.dir);
-
-					if (aInv > 0)
+					if (col == bckup)
 					{
-						color tmp = (ldif * (m.kd)) * aInv;
-						col[0] = col[0] + tmp[0];
-						col[1] = col[1] + tmp[1];
-						col[2] = col[2] + tmp[2];
+						Ray normalInv(normal);
+						normalInv.dir[0] = -normal.dir[0];
+						normalInv.dir[1] = -normal.dir[1];
+						normalInv.dir[2] = -normal.dir[2];
+
+						float aInv = vecteurLight.dot(normalInv.dir);
+
+						if (aInv > 0)
+						{
+							color tmp = (ldif * (m.kd)) * aInv;
+							col += tmp;
+						}
 					}
 				}
 
@@ -1336,9 +1421,7 @@ public:
 				if (beta > 0)
 				{
 					color tmp = (m.ks) * pow(beta, m.shininess) * lspe;
-					col[0] = col[0] + tmp[0];
-					col[1] = col[1] + tmp[1];
-					col[2] = col[2] + tmp[2];
+					col += tmp;
 				}
 			}
 
@@ -1348,68 +1431,6 @@ public:
 
 			return col * 255;
 		}	
-	}
-
-	//�clairage de Lambert
-	color SceneGetImpactColorLambert(const Ray& ray, Entite& obj, outils::Point& impact, const int indiceObj)
-	{
-		Material m = obj.GetMaterial();
-
-		Ray normal = obj.getNormal(impact, ray.origin);
-		color col = m.ka * (ambiant * (1.0f / 255.0f));
-		color bckup = col;
-
-		//pour chaque lumi�re de la sc�ne
-		for (int l = 0; l < listeLumieres.size(); l++)
-		{
-			//r�cup�rer le vecteur entre le point d'impact et la lumi�re
-			Light* light = listeLumieres[l];
-			Vec3 vecToLight = light->getVectorToLight(impact);
-			vecToLight = vecToLight.normalize();
-
-			if (vecToLight.dot(normal.dir) > 0.0f)
-			{
-				color tmp = m.kd * vecToLight.dot(normal.dir);
-				col[0] = col[0] + tmp[0];
-				col[1] = col[1] + tmp[1];
-				col[2] = col[2] + tmp[2];
-			}
-
-			cout << "couleur " << col << " scal " << vecToLight.dot(normal.dir) << " impact " << impact.GetPosition() << " normale " << normal.dir << endl;
-		}
-
-		//si la couleur calcul�e est identique � la backup, il faut retester avec l'inverse de la normale
-		if (col == bckup)
-		{
-			normal.dir[0] = -normal.dir[0];
-			normal.dir[1] = -normal.dir[1];
-			normal.dir[2] = -normal.dir[2];
-
-			//pour chaque lumi�re de la sc�ne
-			for (int l = 0; l < listeLumieres.size(); l++)
-			{
-				//r�cup�rer le vecteur entre le point d'impact et la lumi�re
-				Light* light = listeLumieres[l];
-				Vec3 vecToLight = light->getVectorToLight(impact);
-				vecToLight = vecToLight.normalize();
-
-				if (vecToLight.dot(normal.dir) > 0.0f)
-				{
-					color tmp = m.kd * vecToLight.dot(normal.dir);
-					col[0] = col[0] + tmp[0];
-					col[1] = col[1] + tmp[1];
-					col[2] = col[2] + tmp[2];
-				}
-
-				cout << "couleur - normale inverse " << col << " scal " << vecToLight.dot(normal.dir) << " impact " << impact.GetPosition() << " normale " << normal.dir << endl;
-			}
-		}
-
-		if (col[0] > 1.0f) col[0] = 1.0f;
-		if (col[1] > 1.0f) col[1] = 1.0f;
-		if (col[2] > 1.0f) col[2] = 1.0f;
-
-		return col * 255.0f;
 	}
 
 #pragma endregion

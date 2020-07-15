@@ -34,7 +34,7 @@ namespace outils
 #pragma region Fonctions
 
 		//getteur sur la position
-		Vec3 GetPosition() const
+		inline Vec3 GetPosition() const
 		{
 			return position;
 		}
